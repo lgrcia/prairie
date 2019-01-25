@@ -1,0 +1,528 @@
+{
+  "model": {
+    "d5bcbd44-7b5c-4613-be0a-f95d722478c9": {
+      "id": "d5bcbd44-7b5c-4613-be0a-f95d722478c9",
+      "name": "input",
+      "script": "/Users/lgr/Code/PrairieJS/scripts/basic_functions.py",
+      "value": "np.arange(-40, 40, 0.1)",
+      "nodes": {
+        "in": [
+          {
+            "name": "x",
+            "id": "e8c02dd7-9ee0-43fd-b786-b83cf76d5490",
+            "value": null,
+            "type": "in",
+            "connections": [],
+            "connected": false,
+            "ready": true
+          }
+        ],
+        "out": [
+          {
+            "name": "input",
+            "id": "8d3a9445-c848-4f92-80ac-8c28f175c10c",
+            "value": null,
+            "type": "out",
+            "connections": [
+              "f84dec39-0a06-4d01-8557-381487152acf",
+              "02a974cc-8723-41d3-bf35-5e4c902ab032",
+              "35a0bc8f-5aad-4cea-8417-263a2ec496c2"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ]
+      },
+      "connected_in": false,
+      "connected_out": true,
+      "type": "input"
+    },
+    "8dacd827-964e-4b5d-9e4f-2acc235f5d3d": {
+      "id": "8dacd827-964e-4b5d-9e4f-2acc235f5d3d",
+      "name": "airy_2d",
+      "script": "/Users/lgr/Code/PrairieJS/scripts/psf_models.py",
+      "value": null,
+      "nodes": {
+        "in": [
+          {
+            "name": "x",
+            "id": "83d345a5-8265-403c-918d-273eb368f77e",
+            "value": null,
+            "type": "in",
+            "connections": [
+              "f84dec39-0a06-4d01-8557-381487152acf"
+            ],
+            "connected": true,
+            "ready": false
+          },
+          {
+            "name": " y",
+            "id": "bbe79e4f-7a08-40d0-8697-3d995b381065",
+            "value": null,
+            "type": "in",
+            "connections": [
+              "02a974cc-8723-41d3-bf35-5e4c902ab032"
+            ],
+            "connected": true,
+            "ready": false
+          },
+          {
+            "name": " wavelength",
+            "id": "bf572364-d9fe-4955-9d32-4aa21cbe124f",
+            "value": null,
+            "type": "in",
+            "connections": [
+              "e2ca8ee4-05ae-42fd-9105-83ab7420c7f4"
+            ],
+            "connected": true,
+            "ready": false
+          },
+          {
+            "name": " fn",
+            "id": "8b412c1c-63f2-4ca2-8572-f4d68df9116f",
+            "value": null,
+            "type": "in",
+            "connections": [
+              "dda0e85a-1404-4a77-87cf-41982a558a72"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ],
+        "out": [
+          {
+            "name": "airy",
+            "id": "33758a7d-7bb1-4c04-b789-d9cbf0d44187",
+            "value": null,
+            "type": "out",
+            "connections": [
+              "d29a78d3-84f8-4b04-b848-c0d135f4eab8",
+              "06d78d89-e809-49a3-a680-27027cc6dc41"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ]
+      },
+      "connected_in": true,
+      "connected_out": true,
+      "type": "function"
+    },
+    "c12238b8-4c36-4f92-8f25-9ad1b5a82c07": {
+      "id": "c12238b8-4c36-4f92-8f25-9ad1b5a82c07",
+      "name": "plot",
+      "script": "/Users/lgr/Code/PrairieJS/scripts/basic_functions.py",
+      "value": null,
+      "nodes": {
+        "in": [
+          {
+            "name": "x",
+            "id": "fa601fa6-ec13-4367-90fc-8fd101f0b830",
+            "value": null,
+            "type": "in",
+            "connections": [
+              "efa327ea-7b0c-4c1e-a118-d76130e907d6"
+            ],
+            "connected": true,
+            "ready": false
+          },
+          {
+            "name": " y",
+            "id": "d4b9ec6a-0a85-46ad-afa4-93396aea06e9",
+            "value": null,
+            "type": "in",
+            "connections": [
+              "35a0bc8f-5aad-4cea-8417-263a2ec496c2"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ],
+        "out": [
+          {
+            "name": "x",
+            "id": "c3a98e68-39a4-4647-b1f2-80a61303dbe8",
+            "value": null,
+            "type": "out",
+            "connections": [],
+            "connected": false,
+            "ready": false
+          },
+          {
+            "name": " y",
+            "id": "e24228ab-21d4-45c6-8b27-032c7b9a77d1",
+            "value": null,
+            "type": "out",
+            "connections": [],
+            "connected": false,
+            "ready": false
+          }
+        ]
+      },
+      "connected_in": true,
+      "connected_out": false,
+      "type": "plot"
+    },
+    "5a4fb2c8-c46d-4cd0-b267-5f61b014266a": {
+      "id": "5a4fb2c8-c46d-4cd0-b267-5f61b014266a",
+      "name": "log",
+      "script": "/Users/lgr/Code/PrairieJS/scripts/functions.py",
+      "value": null,
+      "nodes": {
+        "in": [
+          {
+            "name": "image",
+            "id": "abc530df-7f69-4dfc-8520-255e0d70a0b1",
+            "value": null,
+            "type": "in",
+            "connections": [
+              "06d78d89-e809-49a3-a680-27027cc6dc41"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ],
+        "out": [
+          {
+            "name": "-np.log(image)",
+            "id": "eff5f323-982a-4bc7-8abc-168b43c58beb",
+            "value": null,
+            "type": "out",
+            "connections": [
+              "da23841a-92d7-4520-8b29-9541f1dfc395"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ]
+      },
+      "connected_in": true,
+      "connected_out": true,
+      "type": "function"
+    },
+    "a06ffd60-e284-48f7-aac9-c1033199af18": {
+      "id": "a06ffd60-e284-48f7-aac9-c1033199af18",
+      "name": "image",
+      "script": "/Users/lgr/Code/PrairieJS/scripts/basic_functions.py",
+      "value": [],
+      "nodes": {
+        "in": [
+          {
+            "name": "d",
+            "id": "11557cfc-3509-4902-89c7-7db577785f7d",
+            "value": null,
+            "type": "in",
+            "connections": [
+              "da23841a-92d7-4520-8b29-9541f1dfc395"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ],
+        "out": [
+          {
+            "name": "d",
+            "id": "f6d5ce07-864b-479d-a088-6698a0e0a149",
+            "value": null,
+            "type": "out",
+            "connections": [],
+            "connected": false,
+            "ready": false
+          }
+        ]
+      },
+      "connected_in": true,
+      "connected_out": false,
+      "type": "image"
+    },
+    "9a8c81e9-0474-4330-84ef-29451c782ee3": {
+      "id": "9a8c81e9-0474-4330-84ef-29451c782ee3",
+      "name": "row",
+      "script": "/Users/lgr/Code/PrairieJS/scripts/functions.py",
+      "value": null,
+      "nodes": {
+        "in": [
+          {
+            "name": "vector",
+            "id": "b62e53c5-0e47-4ccb-b7b6-843940a53345",
+            "value": null,
+            "type": "in",
+            "connections": [
+              "d29a78d3-84f8-4b04-b848-c0d135f4eab8"
+            ],
+            "connected": true,
+            "ready": false
+          },
+          {
+            "name": " n",
+            "id": "19998362-abfc-4e9d-aab7-b37eba8fe9fb",
+            "value": null,
+            "type": "in",
+            "connections": [
+              "0c9b157e-5377-443c-92d7-9d247a08a832"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ],
+        "out": [
+          {
+            "name": "vector[n]",
+            "id": "5018a12f-03f6-4c77-a672-00e2cd771e0b",
+            "value": null,
+            "type": "out",
+            "connections": [
+              "efa327ea-7b0c-4c1e-a118-d76130e907d6"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ]
+      },
+      "connected_in": true,
+      "connected_out": true,
+      "type": "function"
+    },
+    "60eb03d2-32af-489c-8435-3d8932a9a395": {
+      "id": "60eb03d2-32af-489c-8435-3d8932a9a395",
+      "name": "input",
+      "script": "/Users/lgr/Code/PrairieJS/scripts/basic_functions.py",
+      "value": "400",
+      "nodes": {
+        "in": [
+          {
+            "name": "x",
+            "id": "18169efb-f832-4bbf-91a3-c0c54d6ac839",
+            "value": null,
+            "type": "in",
+            "connections": [],
+            "connected": false,
+            "ready": true
+          }
+        ],
+        "out": [
+          {
+            "name": "input",
+            "id": "e2da8b13-8d4f-4da3-9ba6-bf4cce61ea37",
+            "value": null,
+            "type": "out",
+            "connections": [
+              "0c9b157e-5377-443c-92d7-9d247a08a832"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ]
+      },
+      "connected_in": false,
+      "connected_out": true,
+      "type": "input"
+    },
+    "86c163a9-669d-49c7-b24f-afa3c8be05f2": {
+      "id": "86c163a9-669d-49c7-b24f-afa3c8be05f2",
+      "name": "variable",
+      "script": "/Users/lgr/Code/PrairieJS/scripts/basic_functions.py",
+      "value": "10",
+      "nodes": {
+        "in": [
+          {
+            "name": "x",
+            "id": "c634a77f-e93e-49d9-b4c7-adbf69b8e12b",
+            "value": null,
+            "type": "in",
+            "connections": [],
+            "connected": false,
+            "ready": true
+          }
+        ],
+        "out": [
+          {
+            "name": "input",
+            "id": "fdd86c17-2b67-4580-848b-7f5aabb146a3",
+            "value": null,
+            "type": "out",
+            "connections": [
+              "e2ca8ee4-05ae-42fd-9105-83ab7420c7f4"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ]
+      },
+      "connected_in": false,
+      "connected_out": true,
+      "type": "variable"
+    },
+    "2ef40d91-a299-46e0-b18e-230e2d5ffe52": {
+      "id": "2ef40d91-a299-46e0-b18e-230e2d5ffe52",
+      "name": "variable",
+      "script": "/Users/lgr/Code/PrairieJS/scripts/basic_functions.py",
+      "value": "3",
+      "nodes": {
+        "in": [
+          {
+            "name": "x",
+            "id": "22e6fb03-ba1c-45b5-805a-634a634369bb",
+            "value": null,
+            "type": "in",
+            "connections": [],
+            "connected": false,
+            "ready": true
+          }
+        ],
+        "out": [
+          {
+            "name": "input",
+            "id": "0c8aaa95-6a12-448b-8023-14a5b7f1f9b1",
+            "value": null,
+            "type": "out",
+            "connections": [
+              "dda0e85a-1404-4a77-87cf-41982a558a72"
+            ],
+            "connected": true,
+            "ready": false
+          }
+        ]
+      },
+      "connected_in": false,
+      "connected_out": true,
+      "type": "variable"
+    }
+  },
+  "model_view": {
+    "d5bcbd44-7b5c-4613-be0a-f95d722478c9": {
+      "name": "unnamed",
+      "x": 316,
+      "y": 164,
+      "shown_in_GUI_editor": true,
+      "GUI_editor_x": 0,
+      "GUI_editor_y": 0
+    },
+    "8dacd827-964e-4b5d-9e4f-2acc235f5d3d": {
+      "name": "airy_2d",
+      "x": 552,
+      "y": 277,
+      "shown_in_GUI_editor": false,
+      "GUI_editor_x": 0,
+      "GUI_editor_y": 0
+    },
+    "c12238b8-4c36-4f92-8f25-9ad1b5a82c07": {
+      "name": "unnamed",
+      "x": 776,
+      "y": 85,
+      "shown_in_GUI_editor": true,
+      "GUI_editor_x": 0,
+      "GUI_editor_y": 0
+    },
+    "5a4fb2c8-c46d-4cd0-b267-5f61b014266a": {
+      "name": "log",
+      "x": 677,
+      "y": 315,
+      "shown_in_GUI_editor": false,
+      "GUI_editor_x": 0,
+      "GUI_editor_y": 0
+    },
+    "a06ffd60-e284-48f7-aac9-c1033199af18": {
+      "name": "unnamed",
+      "x": 779,
+      "y": 282,
+      "shown_in_GUI_editor": true,
+      "GUI_editor_x": 0,
+      "GUI_editor_y": 0
+    },
+    "9a8c81e9-0474-4330-84ef-29451c782ee3": {
+      "name": "row",
+      "x": 683,
+      "y": 224,
+      "shown_in_GUI_editor": false,
+      "GUI_editor_x": 0,
+      "GUI_editor_y": 0
+    },
+    "60eb03d2-32af-489c-8435-3d8932a9a395": {
+      "name": "unnamed",
+      "x": 555,
+      "y": 222,
+      "shown_in_GUI_editor": true,
+      "GUI_editor_x": 0,
+      "GUI_editor_y": 0
+    },
+    "86c163a9-669d-49c7-b24f-afa3c8be05f2": {
+      "name": " wavelength",
+      "x": 371,
+      "y": 290,
+      "shown_in_GUI_editor": true,
+      "GUI_editor_x": 0,
+      "GUI_editor_y": 0
+    },
+    "2ef40d91-a299-46e0-b18e-230e2d5ffe52": {
+      "name": " fn",
+      "x": 414,
+      "y": 358,
+      "shown_in_GUI_editor": true,
+      "GUI_editor_x": 0,
+      "GUI_editor_y": 0
+    }
+  },
+  "model_connections": {
+    "f84dec39-0a06-4d01-8557-381487152acf": {
+      "block_in": "8dacd827-964e-4b5d-9e4f-2acc235f5d3d",
+      "node_in": "83d345a5-8265-403c-918d-273eb368f77e",
+      "node_out": "8d3a9445-c848-4f92-80ac-8c28f175c10c",
+      "block_out": "d5bcbd44-7b5c-4613-be0a-f95d722478c9"
+    },
+    "02a974cc-8723-41d3-bf35-5e4c902ab032": {
+      "block_in": "8dacd827-964e-4b5d-9e4f-2acc235f5d3d",
+      "node_in": "bbe79e4f-7a08-40d0-8697-3d995b381065",
+      "node_out": "8d3a9445-c848-4f92-80ac-8c28f175c10c",
+      "block_out": "d5bcbd44-7b5c-4613-be0a-f95d722478c9"
+    },
+    "0c9b157e-5377-443c-92d7-9d247a08a832": {
+      "block_in": "9a8c81e9-0474-4330-84ef-29451c782ee3",
+      "node_in": "19998362-abfc-4e9d-aab7-b37eba8fe9fb",
+      "node_out": "e2da8b13-8d4f-4da3-9ba6-bf4cce61ea37",
+      "block_out": "60eb03d2-32af-489c-8435-3d8932a9a395"
+    },
+    "efa327ea-7b0c-4c1e-a118-d76130e907d6": {
+      "block_in": "c12238b8-4c36-4f92-8f25-9ad1b5a82c07",
+      "node_in": "fa601fa6-ec13-4367-90fc-8fd101f0b830",
+      "node_out": "5018a12f-03f6-4c77-a672-00e2cd771e0b",
+      "block_out": "9a8c81e9-0474-4330-84ef-29451c782ee3"
+    },
+    "d29a78d3-84f8-4b04-b848-c0d135f4eab8": {
+      "block_in": "9a8c81e9-0474-4330-84ef-29451c782ee3",
+      "node_in": "b62e53c5-0e47-4ccb-b7b6-843940a53345",
+      "node_out": "33758a7d-7bb1-4c04-b789-d9cbf0d44187",
+      "block_out": "8dacd827-964e-4b5d-9e4f-2acc235f5d3d"
+    },
+    "06d78d89-e809-49a3-a680-27027cc6dc41": {
+      "block_in": "5a4fb2c8-c46d-4cd0-b267-5f61b014266a",
+      "node_in": "abc530df-7f69-4dfc-8520-255e0d70a0b1",
+      "node_out": "33758a7d-7bb1-4c04-b789-d9cbf0d44187",
+      "block_out": "8dacd827-964e-4b5d-9e4f-2acc235f5d3d"
+    },
+    "da23841a-92d7-4520-8b29-9541f1dfc395": {
+      "block_in": "a06ffd60-e284-48f7-aac9-c1033199af18",
+      "node_in": "11557cfc-3509-4902-89c7-7db577785f7d",
+      "node_out": "eff5f323-982a-4bc7-8abc-168b43c58beb",
+      "block_out": "5a4fb2c8-c46d-4cd0-b267-5f61b014266a"
+    },
+    "35a0bc8f-5aad-4cea-8417-263a2ec496c2": {
+      "block_in": "c12238b8-4c36-4f92-8f25-9ad1b5a82c07",
+      "node_in": "d4b9ec6a-0a85-46ad-afa4-93396aea06e9",
+      "node_out": "8d3a9445-c848-4f92-80ac-8c28f175c10c",
+      "block_out": "d5bcbd44-7b5c-4613-be0a-f95d722478c9"
+    },
+    "e2ca8ee4-05ae-42fd-9105-83ab7420c7f4": {
+      "block_in": "8dacd827-964e-4b5d-9e4f-2acc235f5d3d",
+      "node_in": "bf572364-d9fe-4955-9d32-4aa21cbe124f",
+      "node_out": "fdd86c17-2b67-4580-848b-7f5aabb146a3",
+      "block_out": "86c163a9-669d-49c7-b24f-afa3c8be05f2"
+    },
+    "dda0e85a-1404-4a77-87cf-41982a558a72": {
+      "block_in": "8dacd827-964e-4b5d-9e4f-2acc235f5d3d",
+      "node_in": "8b412c1c-63f2-4ca2-8572-f4d68df9116f",
+      "node_out": "0c8aaa95-6a12-448b-8023-14a5b7f1f9b1",
+      "block_out": "2ef40d91-a299-46e0-b18e-230e2d5ffe52"
+    }
+  }
+}

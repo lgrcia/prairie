@@ -1,0 +1,19 @@
+$UI-font-color: rgb(40, 40, 40);
+$UI-background-color: #fafafa;
+$UI-background-contrast: white;
+
+
+
+$UI-color-active: #5b91ff;
+// $UI-color-active: #F7CD4E;
+
+
+
+$UI-border-color: #e7e7e7;
+$UI-button-color: #727272;
+$file-tree-font-color: #777777;
+
+$UI-button-hover-color: lighten($UI-button-color, 10%);
+$UI-button-clicked-color: darken($UI-button-color, 20%);
+
+$UI-tool-button-color: black;

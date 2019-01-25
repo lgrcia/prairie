@@ -1,0 +1,213 @@
+/* .block {
+  fill: #FFFFFF;
+  opacity: 0.8;
+  stroke: #C0C0C0;
+  stroke-width: 1.4;
+  stroke-opacity: 1;
+  radius: 1;
+} */
+
+@import url('./codemirror.css');
+@import url('./github-light.css');
+@import url('./prairieoutput.scss');
+
+// $UI-color-active: #5b91ff;
+
+.header {
+  fill: #F1F2F4;
+  stroke: #C5C5C5;
+  stroke-width: 0.7;
+}
+
+.block-group.error .header {
+  stroke: #E07F7F;
+  fill: #FFCED0;
+}
+
+.header-font {
+  fill:#8B919A;
+  font-weight: bold;
+  font-family: Arial;
+  font-size: 13px;
+}
+
+.block-group.error .header-font {
+  fill: E07F7F;
+}
+
+.block-group.error .header-font {
+  fill: #E07F7F;
+}
+
+.node.connected {
+  fill: #D4D7D9;
+}
+
+.node.unconnected {
+  fill: #FFFFFF;
+  stroke: #DDDDDD;
+  stroke-width: 1;
+}
+
+.block-group.error .node-group .node.unconnected {
+  stroke: #E07F7F;
+}
+
+.block-group.error .node-group .node.connected {
+  stroke: #E07F7F;
+  fill: #E07F7F;
+}
+
+
+.block {
+  fill: #FFFFFF;
+  stroke-width: 0;
+  opacity: 0.8;
+}
+
+.block-stroke {
+  fill-opacity: 0;
+  stroke: #C5C5C5;
+  stroke-width: 0.7;
+}
+
+.block-group.error .block-stroke {
+  stroke: rgb(209, 76, 76);
+}
+
+.output-block{
+  fill: #676767;
+  stroke-width: 0;
+}
+
+.input-block{
+  fill: white;
+  stroke-width: 0;
+  opacity: 0.8;
+}
+
+/* .selected {
+  fill: rgb(25, 35, 49);
+} */
+
+.unselected {
+  opacity: 0;
+  transition: opacity 0.3s,
+  fill 0.3s ;
+}
+
+.unselected .output-block{
+  fill: rgb(189, 189, 189);
+  opacity: 0
+}
+
+
+
+.connection.unselected {
+  opacity: 0
+}
+
+.unselected .CodeMirror,
+.unselected .plot-container{
+  opacity: 0
+}
+
+.unselected .bk-plot-layout {
+  opacity: 0
+}
+
+.static-code-block{
+  fill: #00000000;
+  stroke-width: 0;
+}
+
+.static-code-block + .block-stroke {
+  stroke: #00000000;
+}
+
+/************/
+.block_name {
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-family: system-ui;
+  /* font-family: 'Roboto Mono', monospace; */
+  /* font-family: 'IBM Plex Sans', sans-serif; */
+  fill: #C0C0C0;
+  font-size: 12px;
+  font-weight: 300;
+  /* font-style: italic; */
+}
+/* .node {
+  fill: #C0C0C0;
+} */
+.connection {
+  fill: none;
+  stroke: #C0C0C0;
+  stroke-width: 2;
+}
+.node:hover {
+  fill: #828282;
+}
+.block-tool-icon {
+  fill: #c8c8c8;
+}
+.block-tool-icon:active {
+  fill: #828282;
+}
+.bk-button-bar {
+  webkit-user-select: none;
+}
+.bk-tip {
+  webkit-user-select: none;
+}
+.blueprint-frame-normal {
+  fill: none;
+  stroke: #eeeeee;
+  stroke-width: 1.5;
+}
+.blueprint-text {
+  font-family: 'Roboto Mono', monospace;
+  fill: #eeeeee;
+  font-size: 25px;
+  font-weight: 400;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.block_id_text {
+  display: none;
+  font: system-ui;
+  fill: #C0C0C0;
+  font-size: 10px;
+  font-weight: 200;
+}
+.tip {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  fill: #8B919A;
+  font-size: 12px;
+}
+.tip-background {
+  fill: #FFFFFF;
+  opacity: 1;
+}
+.tab-content {
+  background-color: #FFFFFF;
+}
+
+.header {
+  fill: #F1F2F4;
+  stroke: #C5C5C5;
+  stroke-width: 0.7;
+}
+
+.icon-text {
+  fill:#8B919A;
+  font-weight: bold;
+  font-family: Arial;
+  font-size: 14px;
+}

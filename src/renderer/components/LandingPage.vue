@@ -1,0 +1,177 @@
+<template>
+  <div id="app">
+    <tab-bar :tabs="$store.state.Tabs.tabs" :currentTab="$store.state.Tabs.currentTab"></tab-bar>
+    <div class="content" id="prairie"></div>
+    <!-- <block-options-pannel v-if="$store.state.PrairieUI.selectedBlock" :blockModel="$store.state.PrairieUI.selectedBlock"></block-options-pannel> -->
+    <menu-bar></menu-bar>
+    <prairie-tool-bar></prairie-tool-bar>
+  </div>
+</template>
+
+<script>
+import TabBar from "./TabBar.vue";
+import MenuBar from "./MenuBar.vue";
+import PrairieToolBar from "./PrairieToolBar.vue";
+import BlockOptionsPannel from "./BlockOptions/BlockOptionsPannel.vue";
+import { PrairieController } from "../../prairie/prairie_controller.js";
+const _ = require("underscore");
+
+export default {
+  name: "app",
+  data() {
+    return {
+      tabs: [""],
+      currentTab: [],
+      prairie_ctr: 0
+    };
+  },
+  components: {
+    TabBar,
+    MenuBar,
+    BlockOptionsPannel,
+    PrairieToolBar
+  },
+  mounted: function() {
+    // this.prairie_ctr = new PrairieController('prairie', 'DEF')
+    // this.prairie_ctr.loadModel('/Users/lgr/Code/PrairieJS/Prairie_project/airy_demo.pr')
+    // this.prairie_ctr.loadModel('/Users/lgr/Code/test_pr_code.pr')
+
+    document.addEventListener("keydown", event => {
+      const keyName = event.key;
+      console.log(keyName);
+      if (event.shiftKey) {
+        if (keyName === "Enter") {
+          console.log("run");
+          this.$store.dispatch("eventToPrairie", {
+            name: "updateModelAndRun"
+          });
+        } else if (keyName == "M") {
+          console.log("move");
+          this.prairie_ctr.setGUIEditorMode();
+        } else if (keyName == "E") {
+          let zoom = 0.8;
+          console.log("zoom");
+          let svg = this.prairie_ctr.view.svg;
+          svg.zoom(zoom);
+          svg.viewbox(0, 0, svg.viewbox().width, svg.viewbox().height);
+        } else if (keyName == "S") {
+          this.$store.dispatch("eventToPrairie", {
+            name: "saveModel",
+            data: {
+              filename: 'test_gui_save.pr',
+              fpath: '/Users/lgr/Code/prairie-vue/src/prairie',
+            }
+          });
+        }
+      }
+    });
+
+    // this.addPrairieTab();
+  },
+  methods: {
+    addPrairieTab: function() {
+      this.$store.dispatch("addTab", {
+        model: {
+          name: "unamed.pr",
+          open: false,
+          saved: false,
+          extension: "pr",
+          path: "unamed.pr"
+        }
+      });
+
+      this.prairie_ctr = new PrairieController("prairie", "DEF");
+      this.$store.dispatch(
+        "setPrairieEventHandler",
+        this.prairie_ctr.eventTarget
+      );
+      // this.prairie_ctr.addBlock("code", {
+      //   file_path: "/Users/lgr/Code/prairie-vue/src/blocks/basics.py",
+      //   id: "test_el"
+      // });
+      this.prairie_ctr.eventTarget.addEventListener("block-selected", e => {
+        this.$store.dispatch("blockSelected", e.detail);
+      });
+      let block_model = this.prairie_ctr.getBlockModelById("test_el");
+      let new_bm = _.clone(block_model);
+      // new_bm.nodes.in.push({
+      //   name: "n",
+      //   id: "node-test",
+      //   value: NaN,
+      //   type: "in",
+      //   connections: [],
+      //   connected: false,
+      //   ready: false,
+      //   show_name: true
+      // });
+      // new_bm.nodes.out.push({
+      //   name: "i",
+      //   id: "node-tesut",
+      //   value: NaN,
+      //   type: "out",
+      //   connections: [],
+      //   connected: false,
+      //   ready: false,
+      //   show_name: true
+      // });
+      // this.$store.dispatch("eventToPrairie", {
+      //   name: "updateBlockShapeAndNodes",
+      //   data: {
+      //     model: new_bm
+      //   }
+      // });
+    }
+  },
+  computed: {
+    SelectedBlock: function() {
+      return this.$store.state.Tabs.selectedBlock;
+    }
+  },
+  // mounted: function() {
+  //   // this.addPrairieTab()
+  // }
+};
+</script>
+
+<style lang="scss" scoped>
+@import url("../../prairie/style/elements-style-light.scss");
+@import "../style/prairie-colors.scss";
+@import "../style/prairie-UI.scss";
+
+html,
+body  {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  // text-align: center;
+  color: #2c3e50;
+  // height: 100%;
+  margin: 0px;
+}
+
+.content {
+  height: 800px;
+  width: 100%;
+  // background-color: rgb(221, 208, 190);
+  overflow: hidden;
+}
+
+.block-options {
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  border: $UI-border $UI-border-color;
+  background-color: $UI-background-color;
+  top: 55px;
+  right: 15px;
+  z-index: 1000;
+  // left: -$UI-border-width;
+}
+</style>

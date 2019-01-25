@@ -1,0 +1,23 @@
+/*
+    Name:       prairieoutput
+*/
+
+.cm-s-prairieoutput .CodeMirror-lines {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 12px;
+    background: none;
+    line-height: 1.5; }
+
+.cm-s-prairieoutput.CodeMirror { background: none; color: #b1b1b3; }
+.cm-s-prairieoutput div.CodeMirror-selected { background: #353B48; }
+.cm-s-prairieoutput .CodeMirror-line::selection, .cm-s-prairieoutput .CodeMirror-line > span::selection, .cm-s-prairieoutput .CodeMirror-line > span > span::selection { background: #353B48; }
+.cm-s-prairieoutput .CodeMirror-line::-moz-selection, .cm-s-prairieoutput .CodeMirror-line > span::-moz-selection, .cm-s-prairieoutput .CodeMirror-line > span > span::-moz-selection { background: #353B48; }
+.cm-s-prairieoutput .CodeMirror-gutters { background: #0c0c0d ; border-right: 1px solid #0c0c0d; }
+.cm-s-prairieoutput .CodeMirror-guttermarker { color: #555; }
+.cm-s-prairieoutput .CodeMirror-linenumber { color: #939393; }
+.cm-s-prairieoutput .CodeMirror-cursor { border-left: 1px solid #fff; }
+
+.cm-s-prairieoutput span{ color: #cfcfcf; }
+
+.cm-s-prairieoutput .CodeMirror-activeline-background { background: rgba(185, 215, 253, .15) }
+.cm-s-prairieoutput .CodeMirror-matchingbracket { outline: solid 1px rgba(255, 255, 255, .25); color: white !important; }
