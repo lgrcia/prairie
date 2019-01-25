@@ -1,22 +1,16 @@
-# prairie
+# Prairie
 
-> An electron-vue project
+Prairie is a **visual programming** environment aimed at scientists and engineers. It provides a natural and intuitive interface to visualize and interact with complex data processing pipelines developped in **Python**.
 
-#### Build Setup
+![prairie_demo_screen](https://github.com/LionelGarcia/Prairie/blob/master/ressources/prairie_demo.gif)
 
-``` bash
-# install dependencies
-npm install
+##### Drag and drop your functions from your python files
 
-# serve with hot reload at localhost:9080
-npm run dev
+![prairie_demo_screen](https://github.com/LionelGarcia/Prairie/blob/master/ressources/functions_gif.gif)
 
-# build electron application for production
-npm run build
+##### Use widgets to interact with your data
 
+![prairie_demo_screen](https://github.com/LionelGarcia/Prairie/blob/master/ressources/widgets.gif)
 
-```
+##### and much more ... (under development)
 
----
-
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
