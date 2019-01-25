@@ -12,3 +12,4 @@ __pyache__/*
 *.pyc
 *.idea
 *.ipynb_checkpoints
+Pipfile.lock

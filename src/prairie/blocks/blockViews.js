@@ -1,15 +1,3 @@
-// TODO: set connected attr to node and don't connect input more
-// than once
-// TODO: create toolbox class and add to blockview (BlockToolBoxView ), toolbox class will
-// contain tools (BlockToolView)
-// TODO : make svg load from file
-// TODO: In BlockView, change this.nodes format as this.nodes= {'in': [], 'out': []}
-// TODO: create an event for block resizing
-// TODO: try to estend classes instead of having syntax like block.block (do it in a separate project not to pollute)
-
-//Ongoing: creating a toolbar instead of separate tools, stoped line 50
-
-
 const _ = require('underscore-plus')
 const shapes = require('./shapes.js')
 const plotly = require('plotly.js-dist')
@@ -255,12 +243,10 @@ class BlockView {
 
   hide() {
     this.block.block_group.hide()
-    // this.block.block_group.animate(400, '<>').attr({'opacity': 0}).afterAll(() => this.block.block_group.hide())
   }
 
   show() {
     this.block.block_group.show()
-    // this.block.block_group.animate(400, '<>').attr({'opacity': 1.0}).afterAll(() => this.block.block_group.show())
   }
 
   setSelected(bool) {
@@ -488,14 +474,6 @@ class CodeCodeBlockView extends WidgetBlockView {
       node.node_group.remove()
       // this.prairie.nodes.slice(_.indexOf(this.prairie.nodes, node),1)
     })
-
-    // this.nodes = []
-
-    // this.create_nodes(model.nodes, 'in')
-    // this.create_nodes(model.nodes, 'out')
-
-    // this.redraw_nodes()
-
 
     this.block.n_nodes_in = model.nodes.in.length
     this.block.n_nodes_out = model.nodes.out.length
@@ -884,22 +862,9 @@ class PlotBlockView extends WidgetBlockView {
 
     // PLOT
     this.el_id = this.prairie.name + this.id
-    // this.plt = Bokeh.Plotting;
-    // var tools = "pan,wheel_zoom,box_zoom,reset,save";
 
     this.fobj.appendChild("div", { id: this.el_id })
-    // this.p = this.plt.figure({
-    //   tools: tools,
-    //   sizing_mode: 'stretch_both'
-    // });
 
-    // this.p.toolbar.logo = null;
-
-    // // show the plot
-    // this.plt.show(this.p, document.getElementById(this.el_id));
-
-    // this.min_h = this.p.toolbar.tools.length * this.bokeh_tools_icon_size + 30;
-    // this.min_w = 100;
     this.min_h = 200;
     this.min_w = 300;
 
@@ -908,12 +873,6 @@ class PlotBlockView extends WidgetBlockView {
 
     this.update()
     this.update_block()
-
-    this.lines = []
-    this.source = undefined
-    // this.setzindex()
-
-    // this.set_2()
   }
 
   update_block() {
@@ -921,8 +880,6 @@ class PlotBlockView extends WidgetBlockView {
     this.h = Math.max(this.h, this.min_h)
 
     this.block.resize_content(this.w, this.h)
-
-    // this.fobj.size(this.h - 2*this.margin_w, this.w - 2*this.margin_h);
     this.update_plot_size()
     this.redraw_nodes()
   }
@@ -941,92 +898,7 @@ class PlotBlockView extends WidgetBlockView {
     this.update_plot_size()
   }
 
-  // resize(w, h) {
-  //   this.block_rect.size(w, h);
-  //   this.fobj.size(
-  //     w - 2 * this.x_offset,
-  //     h - 2 * this.y_offset - this.handle_size);
-  //   this.redraw_nodes()
-  // }
-
-  // update(event = undefined) {
-  //   let w_limit = this.max_w;
-  //   let h_limit = this.max_h;
-
-  //   super.update(event, w_limit, h_limit);
-  //   this.update_plot_size();
-  // }
-
-  set_1() {
-    var M = 100;
-    var xx = [];
-    var yy = [];
-    var colors = [];
-    var radii = [];
-    for (var y = 0; y <= M; y += 4) {
-      for (var x = 0; x <= M; x += 4) {
-        xx.push(x);
-        yy.push(y);
-        colors.push(this.plt.color(50 + 2, 30 + 2 * y, 150));
-        radii.push(Math.random() * 0.4 + 1.7)
-      }
-    }
-
-    var source = new Bokeh.ColumnDataSource({
-      data: { x: xx, y: yy, radius: radii, colors: colors }
-    });
-
-    // make the plot and add some tools
-    var tools = "pan,wheel_zoom,box_zoom,reset,save";
-    this.p = this.plt.figure({
-      tools: tools,
-      sizing_mode: 'stretch_both'
-    });
-
-    this.p.toolbar.logo = null;
-
-    // call the circle glyph method to add some circle glyphs
-    var circles = this.p.circle({ field: "x" }, { field: "y" }, {
-      source: source,
-      radius: radii,
-      fill_color: colors,
-      fill_alpha: 0.6,
-      line_color: null
-    });
-  }
-
-  set_2(x = _.range(0, 40, 0.1)) {
-    let source = new Bokeh.ColumnDataSource({
-      data: {
-        x: x,
-        y: _.map(x, function (x) { return Math.sin(x) })
-      }
-    });
-    this.lines.push(this.p.line({ field: "x" }, { field: "y" }, { source: source }))
-  }
-
   plot(x, y) {
-    // if (!this.source){
-    //   this.source = new Bokeh.ColumnDataSource({
-    //     data: {
-    //       x: x,
-    //       y: y
-    //     }
-    //   });
-    //   this.p.line({ field: "x" }, { field: "y" }, { source: this.source })
-    // } else {
-    //   this.source.x = x,
-    //   this.source.y = y
-    // }
-    // this.source = new Bokeh.ColumnDataSource({
-    //   data: {
-    //     x: x,
-    //     y: y
-    //   }
-    // });
-    // _.each(this.lines, (line) => {this.p.renderers.remove(line)})
-    // this.p.line({ field: "x" }, { field: "y" }, { source: source })
-
     var trace1 = {
       x: x,
       y: y,
@@ -1142,21 +1014,8 @@ class ImageBlockView extends WidgetBlockView {
 
     // PLOT
     this.el_id = this.prairie.name + this.id
-    // this.plt = Bokeh.Plotting;
-    // var tools = "pan,wheel_zoom,box_zoom,reset,save";
-
     this.fobj.appendChild("div", { id: this.el_id })
-    // this.p = this.plt.figure({
-    //   tools: tools,
-    //   sizing_mode: 'stretch_both'
-    // });
 
-    // this.p.toolbar.logo = null;
-
-    // // show the plot
-    // this.plt.show(this.p, document.getElementById(this.el_id));
-
-    // this.min_h = this.p.toolbar.tools.length * this.bokeh_tools_icon_size + 30;
     this.min_h = 300;
     this.min_w = 300;
 
@@ -1167,9 +1026,6 @@ class ImageBlockView extends WidgetBlockView {
 
     this.update()
     this.update_block()
-    // this.setzindex()
-
-    // this.set_2()
   }
 
   update_block() {
@@ -1177,8 +1033,6 @@ class ImageBlockView extends WidgetBlockView {
     this.h = Math.max(this.h, this.min_h)
 
     this.block.resize_content(this.w, this.h)
-
-    // this.fobj.size(this.h - 2*this.margin_w, this.w - 2*this.margin_h);
     this.update_plot_size()
     this.redraw_nodes()
   }
@@ -1195,70 +1049,6 @@ class ImageBlockView extends WidgetBlockView {
   update() {
     super.update()
     this.update_plot_size()
-  }
-
-  // resize(w, h) {
-  //   this.block_rect.size(w, h);
-  //   this.fobj.size(
-  //     w - 2 * this.x_offset,
-  //     h - 2 * this.y_offset - this.handle_size);
-  //   this.redraw_nodes()
-  // }
-
-  // update(event = undefined) {
-  //   let w_limit = this.max_w;
-  //   let h_limit = this.max_h;
-
-  //   super.update(event, w_limit, h_limit);
-  //   this.update_plot_size();
-  // }
-
-  set_1() {
-    var M = 100;
-    var xx = [];
-    var yy = [];
-    var colors = [];
-    var radii = [];
-    for (var y = 0; y <= M; y += 4) {
-      for (var x = 0; x <= M; x += 4) {
-        xx.push(x);
-        yy.push(y);
-        colors.push(this.plt.color(50 + 2, 30 + 2 * y, 150));
-        radii.push(Math.random() * 0.4 + 1.7)
-      }
-    }
-
-    var source = new Bokeh.ColumnDataSource({
-      data: { x: xx, y: yy, radius: radii, colors: colors }
-    });
-
-    // make the plot and add some tools
-    var tools = "pan,wheel_zoom,box_zoom,reset,save";
-    this.p = this.plt.figure({
-      tools: tools,
-      sizing_mode: 'stretch_both'
-    });
-
-    this.p.toolbar.logo = null;
-
-    // call the circle glyph method to add some circle glyphs
-    var circles = this.p.circle({ field: "x" }, { field: "y" }, {
-      source: source,
-      radius: radii,
-      fill_color: colors,
-      fill_alpha: 0.6,
-      line_color: null
-    });
-  }
-
-  set_2(x = _.range(0, 40, 0.1)) {
-    let source = new Bokeh.ColumnDataSource({
-      data: {
-        x: x,
-        y: _.map(x, function (x) { return Math.sin(x) })
-      }
-    });
-    this.p.line({ field: "x" }, { field: "y" }, { source: source })
   }
 
   plot(d) {
