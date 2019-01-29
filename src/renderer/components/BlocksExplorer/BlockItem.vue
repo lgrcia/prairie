@@ -1,24 +1,55 @@
 <template>
   <div class="block-item" v-on:dragstart="dragstart">
-    <svg viewBox="0 0 30 25" width="34" height="34">
-      <path :d="svg_path"></path>
-      <path
-        d="M21.913,2.889c2.72,0.051 5.154,2.446 5.206,5.206c0.023,3.584 0.067,7.17 -0.001,10.754c-0.086,2.7 -2.473,5.086 -5.205,5.138c-4.631,0.029 -9.264,0.087 -13.894,-0.001c-2.701,-0.086 -5.086,-2.473 -5.138,-5.205c-0.023,-3.585 -0.067,-7.17 0.001,-10.754c0.086,-2.701 2.473,-5.086 5.205,-5.138c4.609,-0.03 9.217,-0.03 13.826,0Zm-13.754,1.442c-2.005,0.013 -3.8,1.764 -3.836,3.78c-0.016,3.583 -0.109,7.169 0.003,10.75c0.087,1.947 1.813,3.646 3.779,3.683c4.613,0.029 9.227,0.086 13.84,-0.001c1.967,-0.063 3.696,-1.796 3.732,-3.782c0.031,-3.566 0.062,-7.133 -0.001,-10.699c-0.062,-1.962 -1.797,-3.693 -3.781,-3.731c-4.579,-0.029 -9.157,0 -13.736,0Z"
-      ></path>
-    </svg>
+    <img class="block-icon" :src="svgSource">
     <div class="title-cont">
-      <div class="title" :class="{small: name.length>1000}">{{name}}</div>
+      <div class="title" :class="{small: this.cName>1000}">{{cName}}</div>
     </div>
   </div>
 </template>
 
 <script>
+const SVGInject = require("@iconfu/svg-inject");
+const path = require("path");
+const fs = require("fs");
+
 export default {
+  data() {
+    return {
+      spath: 0
+    };
+  },
   props: {
     name: String,
-    svg_path: String,
     path: String,
-    icon_text: String,
+    icon_text: String
+  },
+  computed: {
+    svgSource: function() {
+      let svgPath_block = path.join("src/blocks", path.basename(this.path, '.py'), "icons", this.cName + ".svg");
+      let svgPath_lib = path.join("src/blocks", path.basename(this.path, '.py'), this.cName + ".svg");
+      if (fs.existsSync(svgPath_block)) {
+        return svgPath_block;
+      } else if (fs.existsSync(svgPath_lib)){
+        return svgPath_lib;
+      } else {
+        return "src/blocks/default.svg";
+      }
+    },
+    cName: function() {
+      return this.name || path.basename(this.path);
+    }
+  },
+  created: function() {
+    let svgPath = path.join(
+      path.dirname(this.path),
+      "icons",
+      this.cName + ".svg"
+    );
+    if (fs.existsSync(svgPath)) {
+      this.spath = svgPath;
+    } else {
+      this.spath = "/Users/lgr/Code/prairie-vue/src/blocks/default.svg";
+    }
   },
   methods: {
     dragstart: function(event) {
@@ -34,6 +65,9 @@ export default {
           }
         })
       );
+    },
+    getSource: function(path) {
+      return require(path);
     }
   }
 };
@@ -78,7 +112,7 @@ $svg-background-color: #ffffff;
   width: 100%;
   svg path {
     fill: lighten($block-icon-color, 5%);
-    stroke-width: 0.15px;
+    stroke-width: 0px;
     stroke: lighten($block-icon-color, 5%);
   }
 }
@@ -117,12 +151,18 @@ $svg-background-color: #ffffff;
   font-weight: 900;
 }
 
-.block-item:hover svg path {
-  fill: $block-icon-hover-color;
+.block-item:hover .block-icon {
+    opacity: 1;
 }
 
 .block-item:hover .title {
   color: darken($UI-font-color, 50%);
   background-color: $block-icon-text-background-color;
+}
+
+.block-icon {
+  height: 34px;
+  width: 34px;
+  opacity: 0.7;
 }
 </style>

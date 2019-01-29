@@ -28,13 +28,13 @@ def execute(script_path, function_name, args=[], kwargs=[]):
         elif len(args) > 1 and len(kwargs) >= 1:
             output = function_attr(*args, **kwargs)
 
-        if isinstance(output, tuple):
+        if isinstance(output, tuple) and function_name != 'input':
             output = [return_value for return_value in output]
         else:
             output = [output]
 
-    except:
-        return 'Python_SPECIFIC_ERROR_CODE_001'
+    except Exception as e:
+        return 'Python_SPECIFIC_ERROR_CODE_001', str(e)
 
     return output
 
@@ -42,5 +42,5 @@ def run_global(script):
     try:
         exec(script, globals(), globals())
         return 'done'
-    except:
-        return 'Python_SPECIFIC_ERROR_CODE_001'
+    except Exception as e:
+        return 'Python_SPECIFIC_ERROR_CODE_001', str(e)

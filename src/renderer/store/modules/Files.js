@@ -1,5 +1,5 @@
 import { walkDir, buildDir, findDeep } from '../../../scripts/utils.js'
-import { parse } from '../../../scripts/python_parser.js'
+import { parse } from '../../../prairie/python_parser.js'
 const _ = require('underscore')
 
 // write mthods to fille an object like :

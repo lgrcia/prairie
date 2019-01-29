@@ -41,16 +41,15 @@ function get_function_blocks(filename){
 
     py_defs = _.zip(
     _.map(py_defs, function(def){
-      return def.split('def ')[1].split('(')[0]}),
-    _.map(py_defs, function(def){
-      return def.split('"""')[1].split('"""')[0]}))
+      return def.split('def ')[1].split('(')[0]}))//,
+    // _.map(py_defs, function(def){
+    //   return def.split('"""')[1].split('"""')[0]}))
 
 
   py_defs = _.map(py_defs, (py_def) => {return {
       name: py_def[0],
       path: filename,
-      svg_path: JSON.parse(py_def[1]).path,
-      icon_text: JSON.parse(py_def[1]).icon_text
+      // icon_text: JSON.parse(py_def[1]).icon_text
     };
   })
 

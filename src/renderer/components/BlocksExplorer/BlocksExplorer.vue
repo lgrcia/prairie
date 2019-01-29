@@ -29,7 +29,6 @@
         <block-item
           v-for="block in functionBlocks"
           :key="block.id"
-          :svg_path="block.svg_path"
           v-bind="block"
           class="block"
           v-on:dblclick.native="open(block)"
@@ -43,6 +42,7 @@
 import BlockItem from "./BlockItem.vue";
 import { get_function_blocks } from "../../../prairie/python_parser.js";
 import { libraries } from "../../../blocks/libraries.js";
+const path = require('path')
 
 export default {
   props: {
@@ -62,8 +62,7 @@ export default {
   computed: {
     functionBlocks: function() {
       if (this.vtype === "library") {
-        this.test = get_function_blocks(this.selected_library_path)
-        return get_function_blocks(this.selected_library_path);
+        return get_function_blocks(path.join(this.selected_library_path, path.basename(this.selected_library_path) + '.py'));
       } else if (this.vtype === "libraries") {
         return libraries;
       }
@@ -72,8 +71,8 @@ export default {
   methods: {
     open: function(block) {
       this.vtype = "library";
-      this.selected_library_path = block.library_path;
-      this.library_name = block.name;
+      this.selected_library_path = block.path;
+      this.library_name = block.name || path.basename(this.selected_library_path);
     },
   }
 };

@@ -1,19 +1,22 @@
 var libraries = {
     basics: {
-        name: 'basics',
-        'svg_path': 'M19.106,2.358c0.344,0.071 0.576,0.34 0.594,0.692l0,19.099c-0.023,0.463 -0.22,0.545 -0.392,0.629c-0.42,0.206 -0.982,-0.109 -1.008,-0.629l0,-19.099c0.022,-0.429 0.203,-0.753 0.806,-0.692Z',
-        library_path: '/Users/lgr/Code/prairie-vue/src/blocks/basics.py'
+        path: '/Users/lgr/Code/prairie-vue/src/blocks/basics'
     },
     operations: {
-        name: 'operations',
-        'svg_path': 'M14.354,11.847c0.012,-1.179 0.028,-2.358 0.028,-3.537c0.014,-0.412 0.237,-0.738 0.771,-0.719c0.355,0.036 0.634,0.315 0.67,0.67c0.041,1.195 0.048,2.39 0.043,3.586c1.206,0.007 2.411,0.031 3.615,0.072c0.702,0.072 0.921,1.345 0,1.44c-1.209,0.041 -2.418,0.048 -3.627,0.042c-0.013,1.189 -0.029,2.378 -0.029,3.566c-0.026,0.746 -1.35,0.942 -1.441,0.05c-0.042,-1.209 -0.049,-2.418 -0.043,-3.628c-1.189,-0.012 -2.378,-0.029 -3.566,-0.029c-0.754,-0.026 -0.866,-1.357 -0.049,-1.441c1.208,-0.041 2.418,-0.065 3.628,-0.072Z',
-        library_path: '/Users/lgr/Code/prairie-vue/src/blocks/operations.py'
+        path: '/Users/lgr/Code/prairie-vue/src/blocks/operations'
+    },
+    logics: {
+        path: '/Users/lgr/Code/prairie-vue/src/blocks/arrays'
     },
     arrays: {
-        name: 'arrays',
-        'svg_path': 'M14.354,11.847c0.012,-1.179 0.028,-2.358 0.028,-3.537c0.014,-0.412 0.237,-0.738 0.771,-0.719c0.355,0.036 0.634,0.315 0.67,0.67c0.041,1.195 0.048,2.39 0.043,3.586c1.206,0.007 2.411,0.031 3.615,0.072c0.702,0.072 0.921,1.345 0,1.44c-1.209,0.041 -2.418,0.048 -3.627,0.042c-0.013,1.189 -0.029,2.378 -0.029,3.566c-0.026,0.746 -1.35,0.942 -1.441,0.05c-0.042,-1.209 -0.049,-2.418 -0.043,-3.628c-1.189,-0.012 -2.378,-0.029 -3.566,-0.029c-0.754,-0.026 -0.866,-1.357 -0.049,-1.441c1.208,-0.041 2.418,-0.065 3.628,-0.072Z',
-        library_path: '/Users/lgr/Code/prairie-vue/src/blocks/arrays.py'
-    }
+        path: '/Users/lgr/Code/prairie-vue/src/blocks/logics'
+    },
+    signals: {
+        path: '/Users/lgr/Code/prairie-vue/src/blocks/signals'
+    },
+    arrays_creation: {
+        path: '/Users/lgr/Code/prairie-vue/src/blocks/arrays_creation'
+    },
 }
 
 export {
