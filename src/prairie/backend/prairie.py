@@ -99,8 +99,8 @@ class Block:
                 self.name,
                 args=self.get_nodes_values('in'))
 
-            if output == 'Python_SPECIFIC_ERROR_CODE_001':
-                self.return_execution_error()
+            if output[0] == 'Python_SPECIFIC_ERROR_CODE_001':
+                self.return_execution_error(output[1])
             else:
                 self.set_nodes_values(self.nodes_ids['out'], output, 'out')
                 self.transfer_values()
@@ -186,11 +186,12 @@ class Block:
         })
         self.reset_nodes()
 
-    def return_execution_error(self):
+    def return_execution_error(self, error_message):
         self.ws.write_message({
             'header': 'run_error',
             # 'value':
-            'id': self.id
+            'id': self.id,
+            'error_message': error_message
         })
 
 

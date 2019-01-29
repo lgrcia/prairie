@@ -43,35 +43,10 @@ function apply(type, method, ...attr) {
 class PrairieController {
   constructor(view_id, name, i, model = undefined) {
 
-    let manual = false
     this.server_network = name + uuid()
     this.port = 12300 + i
 
-    if (!manual) {
-      this.process = cp.spawn('pipenv', ['run', 'python', './main.py', this.server_network, this.port], { cwd: path.join(__dirname, 'backend') })
-      console.log(this.process)
-
-      this.process.on('error', (err) => {
-        console.log('Failed to start subprocess.');
-        console.log(err)
-      });
-
-      this.process.stdout.on('data', (data) => {
-        // console.log("STDOUT:", data.toString());
-        if (data.toString() === 'WS ' + this.server_network + ' ready\n') {
-          console.log('JS: ' + data.toString());
-          this.mainWS = new blockWS.PrairieWebSocket(this.port, this.server_network);
-          this.mainWS.ws.onmessage = (event) => {
-            this.mainWSMessageReceived(event)
-          };
-        }
-      });
-    } else {
-      this.mainWS = new blockWS.PrairieWebSocket(this.port, this.server_network);
-      this.mainWS.ws.onmessage = (event) => {
-        this.mainWSMessageReceived(event)
-      };
-    }
+    this.startServer()
 
     this.view = new prairie.Prairie(view_id, name);
     this.block_view_proxys = [];
@@ -141,6 +116,37 @@ class PrairieController {
       this.view.svg.doc().remove()
     })
 
+  }
+
+  startServer(manual=false){
+    
+    if (!manual) {
+      this.process = cp.spawn('pipenv', ['run', 'python', './main.py', this.server_network, this.port], { cwd: path.join(__dirname, 'backend') })
+      console.log(this.process)
+
+      this.process.on('error', (err) => {
+        console.log('Failed to start subprocess.');
+        console.log(err)
+      });
+
+      this.process.stdout.on('data', (data) => {
+        // console.log("STDOUT:", data.toString());
+        if (data.toString() === 'WS ' + this.server_network + ' ready\n') {
+          console.log('JS: ' + data.toString());
+          this.mainWS = new blockWS.PrairieWebSocket(this.port, this.server_network);
+          this.mainWS.ws.onmessage = (event) => {
+            this.mainWSMessageReceived(event)
+          };
+        }
+      });
+    } else {
+      this.port = manual[0]
+      this.server_network = manual[1]
+      this.mainWS = new blockWS.PrairieWebSocket(this.port, this.server_network);
+      this.mainWS.ws.onmessage = (event) => {
+        this.mainWSMessageReceived(event)
+      };
+    }
   }
   // Global Model manipulation
   //////////////////////////////////////////////////////////////////////////////
@@ -646,13 +652,16 @@ class PrairieController {
         let model = this.getBlockModelById(message.id)
         let block_view = this.getBlockViewById(model.id)
         block_view.has_error(false)
+        this.model.model[message.id].error_message = undefined
         apply(model.type, 'blockWSMessageReceived', block_view, message)
         break;
       case 'run_error':
         {
           // console.log('backend ERROR!')
           let block_view = this.getBlockViewById(message.id)
+          this.model.model[message.id].error_message = message.error_message
           block_view.has_error(true)
+          console.log(message.error_message)
         }
         break;
       // case 'update_done_run_model':
@@ -716,7 +725,7 @@ class PrairieController {
       y: nodeView.block.block.block_group.y()//nodeView.block.block.block_group.height()
     }
     let new_block = this.addBlock(nodeView.type == 'in' ? 'input' : 'output', {
-      file_path: '/Users/lgr/Code/prairie-vue/src/blocks/basics.py',
+      file_path: '/Users/lgr/Code/prairie-vue/src/blocks/basics/basics.py',
       model_view: model_view
     })
     this.createConnection({
@@ -734,9 +743,12 @@ class PrairieController {
       }
     }))
     menu.append(new MenuItem({
-      label: (blockView.shown_in_GUI_editor ? 'hide' : 'show') + ' (GUI)',
-      click: () => {
+      label: 'show in GUI',
+      type: 'checkbox',
+      checked: blockView.shown_in_GUI_editor,
+      click: (item, window) => {
         blockView.shown_in_GUI_editor = !blockView.shown_in_GUI_editor
+        item.checked = blockView.shown_in_GUI_editor
         if (this.view._GUI_editor_mode && !blockView.shown_in_GUI_editor) {
           blockView.hide()
         }

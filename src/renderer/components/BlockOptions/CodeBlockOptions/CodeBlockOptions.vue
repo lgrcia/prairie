@@ -4,12 +4,26 @@
       <div class="title">inputs</div>
       <div class="add button" v-on:click="addNode('in')" v-if="blockModel.editable"></div>
     </div>
-    <node-options v-for="(node, i) in blockModel.nodes.in" :key="node.id" :index="i" :nodeModel="node"></node-options>
+    <node-options
+      v-for="(node, i) in blockModel.nodes.in"
+      :key="node.id"
+      :index="i"
+      :nodeModel="node"
+    ></node-options>
     <div class="header">
       <div class="title">outputs</div>
       <div class="add button" v-on:click="addNode('out')" v-if="blockModel.editable"></div>
     </div>
-    <node-options v-for="(node, i) in blockModel.nodes.out" :key="node.id" :index="i" :nodeModel="node"></node-options>
+    <node-options
+      v-for="(node, i) in blockModel.nodes.out"
+      :key="node.id"
+      :index="i"
+      :nodeModel="node"
+    ></node-options>
+    <div class="header" v-if="blockModel.error_message">
+      <div class="title">ERROR</div>
+    </div>
+    <div class="error" v-if="blockModel.error_message">{{blockModel.error_message}}</div>
   </div>
 </template>
 
@@ -25,9 +39,9 @@ export default {
     }
   },
   methods: {
-      addNode: function(type){
-          this.$store.dispatch('addNodeToSelectedBlock', type)
-      }
+    addNode: function(type) {
+      this.$store.dispatch("addNodeToSelectedBlock", type);
+    }
   }
 };
 </script>
@@ -57,13 +71,13 @@ $UI-font-color: rgb(40, 40, 40);
   margin-bottom: 4px;
 }
 
-.button{
-      height: 12px;
+.button {
+  height: 12px;
 }
 
 .button::before {
   font-family: "octicons730";
-  color:$UI-font-color;
+  color: $UI-font-color;
   font-size: 11px;
   vertical-align: top;
 }
@@ -78,5 +92,15 @@ $UI-font-color: rgb(40, 40, 40);
 
 .header {
   margin-top: 7px;
+}
+
+.error {
+  padding: 5px;
+  font-family: menlo;
+  font-weight: 600;
+  font-size: 10px;
+  background-color: rgb(31, 31, 31);
+  border-radius: 3px;
+  color:rgb(228, 117, 97);
 }
 </style>
