@@ -8,20 +8,18 @@
 - Open and Close tabs <img src="https://img.shields.io/badge/-beta-green.svg"/>
 - Show File explorer <img src="https://img.shields.io/badge/-beta-green.svg"/>
 - Set file explorer <img src="https://img.shields.io/badge/-beta-green.svg"/>
-
 - Show Python kernel state  <img src="https://img.shields.io/badge/-beta-lightgray.svg"/>
 - Show and set Python kernel <img src="https://img.shields.io/badge/-beta-lightgray.svg"/>
-
 - Drag and drop blocks from UI to Prairie <img src="https://img.shields.io/badge/-beta-green.svg"/>
 - Icon for every block <img src="https://img.shields.io/badge/-beta-green.svg"/>
 - Generate icon from from library <img src="https://img.shields.io/badge/-beta-green.svg"/>
-
 - Pan and Zoom scheme <img src="https://img.shields.io/badge/-beta-lightgray.svg"/>
 - Set Code block inputs and outputs <img src="https://img.shields.io/badge/-beta-lightgray.svg"/>
 - Set Plot block style (through context menu) <img src="https://img.shields.io/badge/-beta-lightgray.svg"/>
-
 - Set visibility of block in GUI (through context menu) <img src="https://img.shields.io/badge/-beta-green.svg"/>
 - Set some block styles (header) <img src="https://img.shields.io/badge/-beta-green.svg"/>
+- Navigate through complex matrix libraries <img src="https://img.shields.io/badge/-beta-lightgray.svg"/>
+- Undo/Redo <img src="https://img.shields.io/badge/-v 1.0-blue.svg"/>
 - Basic Text Editor when opening python code or text <img src="https://img.shields.io/badge/-v 1.0-blue.svg"/>
 
 
@@ -43,14 +41,13 @@
 - Connect blocks together <img src="https://img.shields.io/badge/-beta-green.svg"/>
 - Remove blocks <img src="https://img.shields.io/badge/-beta-green.svg"/>
 
-- **BASIC BLOCKS** :
-
+- **WIDGET BLOCKS** :
   - Input block (CodeMirror) <img src="https://img.shields.io/badge/-beta-green.svg"/>
   - Output block (CodeMirror) <img src="https://img.shields.io/badge/-beta-green.svg"/>
   - Code block (CodeMirror) <img src="https://img.shields.io/badge/-beta-lightgrey.svg"/>
   - Image block (Plotly) <img src="https://img.shields.io/badge/-beta-green.svg"/>
   - Plot block (Plotly) <img src="https://img.shields.io/badge/-beta-green.svg"/>
-
+  - Matrix block (MathJax) <img src="https://img.shields.io/badge/-beta-lightgrey.svg"/>
 - File and Image blocks <img src="https://img.shields.io/badge/-v 1.0-blue.svg"/>
 - Show loading bar on blocks <img src="https://img.shields.io/badge/-v 1.0-blue.svg"/>
 
