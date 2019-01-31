@@ -212,15 +212,16 @@ class BlockShape {
         //     }
         // }
 
-        this.icon_svg = require('/Users/lgr/Code/prairie-vue/src/blocks/arrays_creation/icons/ones_like.svg')
+        // this.icon_svg = require('/Users/lgr/Code/prairie-vue/src/blocks/arrays_creation/icons/ones_like.svg')
 
         if (this.nameAsIcon) {
             this.name = this.add_name()
-            this.name.move(
-                - this.name.width() / 2 + this.block_group.width() / 2,
-                - this.name.height() / 2 + this.block_group.height() / 2
-            )
-            // this.icon = this.add_icon()
+            // this.name.move(
+            //     - this.name.width() / 2 + this.block_group.width() / 2,
+            //     - this.name.height() / 2 + this.block_group.height() / 2
+            // )
+            // this.name.center(this.block_group)
+            // // this.icon = this.add_icon()
         }
 
         if (node_cover_in || node_cover_out) {
