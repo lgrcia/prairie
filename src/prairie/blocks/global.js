@@ -147,7 +147,24 @@ var blocks = {
         updateBlockView: function (attr) {
             
         }
-    }
+    },
+
+    matrix: {
+        initialize_model: function (model, attr) {
+            model.type = 'matrix'
+            model.value = attr.value || '';
+            _.each(model.nodes.out, function (node) { node.connected = true })
+        },
+        updateBlockModelFromBlockView: function (model, block_view) {
+            model.value = block_view.getValue();
+        },
+        blockWSMessageReceived: function (block_view, message) {
+            block_view.setValue(message.value)
+        },
+        blockView: function (attr) {
+            return new view.MatrixBlockView(attr)
+        }
+    },
 
     // static_code: {
     //     blockView: function () {

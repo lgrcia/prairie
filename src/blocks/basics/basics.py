@@ -28,3 +28,12 @@ def code(script, inputs):
     exec(script, inputs, outputs)
     return outputs
 
+def matrix(a):
+    if len(a.shape) > 2:
+        raise ValueError('bmatrix can at most display two dimensions')
+    lines = str(a).replace('[', '').replace(']', '').splitlines()
+    rv = [r'\begin{bmatrix}']
+    rv += ['  ' + ' & '.join(l.split()) + r'\\' for l in lines]
+    rv +=  [r'\end{bmatrix}']
+    math = '\n'.join(rv)
+    return math

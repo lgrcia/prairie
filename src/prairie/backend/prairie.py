@@ -158,7 +158,7 @@ class Block:
         self.connected_in = all([node['connected'] for node in nodes['in']])
 
     def run_done(self):
-        if self.type == 'output':
+        if self.type == 'output' or self.type == 'matrix':
             value = self.get_nodes_values('out')[0]
             if isinstance(value, str):
                 value = value

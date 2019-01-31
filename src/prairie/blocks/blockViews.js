@@ -1,77 +1,60 @@
 const _ = require('underscore-plus')
 const shapes = require('./shapes.js')
+const htmlShapes = require('./htmlShapes.js')
+
+
 const plotly = require('plotly.js-dist')
 const CodeMirror = require('CodeMirror')
 const syntaxer = require("../lib/codemirror_python.js")
-// const Bokeh = require('bokehjs')
+const katex = require('katex');
 
 syntaxer.python_syntax(CodeMirror)
 
 class NodeView {
-  constructor(block, attrs, prairie, style = "node") {
+  constructor(block, attrs, prairie) {
     this.attrs = attrs
     this.connected = false
     this.name = attrs.name
     this.type = attrs.type
     this.show_name = attrs.show_name || false
+    this.show_name = false
     this.prairie = prairie
     this.id = attrs.id;
     this.h = 24;
     this.w = 10;
     this.block = block
-    this.node_group = this.prairie.svg.group().addClass('node-group')
-    this.node = this.prairie.svg.circle(2 * shapes.NODE_IN_R).addClass('node')
-    this.set_connected(false)
-    this.name_tip = this.prairie.svg.text(this.name).attr({
-      class: 'tip'
-    })
-    if (this.show_name) {
-      this.name_tag = this.prairie.svg.text(this.name).attr({
-        class: 'tip'
-      })
-    }
-    this.name_tip_background = this.prairie.svg.rect(0, 0).attr({
-      class: 'tip-background',
-      rx: '6px',
-      ry: '6px',
-    })
-    this.name_tip_background.filter(function (add) {
-      var blur = add.offset(-1, 1).in(add.sourceAlpha).gaussianBlur(2).componentTransfer({
-        a: {
-          type: "linear", slope: "0.1"
-        }
-      })
-      add.blend(add.source, blur)
-    })
-    this.node_group.add(this.name_tip_background)
-    this.node_group.add(this.name_tip)
-    this.node_group.add(this.node)
-    this.positionNameTip()
-    if (this.show_name) {
-      this.node_group.add(this.name_tag)
-      this.positionNameTag()
-    }
 
-    this.node.on('dblclick', (e) => {
+    this.node_group = new htmlShapes.BlockHtmlShape(block.block.block_group.el, 'node-group')
+    this.node_group.width(htmlShapes.NODE_OUT_R * 2)
+    this.node_group.height(htmlShapes.NODE_OUT_R * 2)
+
+    this.node_background = new htmlShapes.BlockHtmlShape(this.node_group.el, 'node-background')
+    this.node_background.width(htmlShapes.NODE_OUT_R * 2)
+    this.node_background.height(htmlShapes.NODE_OUT_R * 2)
+
+    this.node = new htmlShapes.BlockHtmlShape(this.node_group.el, 'node')
+    this.node.width(htmlShapes.NODE_IN_R * 2)
+    this.node.height(htmlShapes.NODE_IN_R * 2)
+    this.node.center(this.node_group)
+
+    this.set_connected(false)
+
+    this.name_tip = new htmlShapes.BlockHtmlShape(this.node_group.el, 'tip')
+    this.name_tip.text(this.name)
+
+    this.positionNameTip()
+
+    // TBM rename node-background as node-target
+    this.node_background.on('dblclick', (e) => {
       e.stopPropagation()
       this.prairie.addBlockInputOrOutput(this)
     })
 
-
-    this.node.mousedown(() => this.prairie.node_mouse_down(this))
-    this.node.mouseup(() => this.prairie.node_mouse_up(this))
-    this.node.mouseover(() => {
-      if (!this.name_tip.visible()) {
-        this.name_tip.show()
-        this.name_tip_background.show()
-      }
+    this.node_background.on('mousedown', (e) => {
+      e.stopPropagation()
+      this.prairie.node_mouse_down(this)
     })
-    this.node.mouseout(() => {
-      if (this.name_tip.visible()) {
-        this.name_tip.hide()
-        this.name_tip_background.hide()
-      }
-    })
+    this.node_background.on('mouseup', () => this.prairie.node_mouse_up(this))
   }
 
   prairieX() { return this.block.x() + this.x() + this.width() / 2 }
@@ -81,29 +64,23 @@ class NodeView {
     let node_offset = 10
     let background_offset_x = 6
     let background_offset_y = 6
-    let bbox = this.name_tip.bbox();
+
+    let w = this.name_tip.width()
+    let h = this.name_tip.height()
+
     this.name_tip.move(
-      (this.type === 'in') ? (- bbox.w - node_offset) : (node_offset + this.node.width()),
-      this.node.height() / 2 - bbox.h / 2);
-
-    bbox = this.name_tip.bbox();
-
-    this.name_tip_background.width(bbox.w + 2 * background_offset_x)
-    this.name_tip_background.height(bbox.h + 2 * background_offset_y)
-
-    this.name_tip_background.move(
-      bbox.x - background_offset_x,
-      bbox.y - background_offset_y)
-    this.name_tip.hide()
-    this.name_tip_background.hide()
+      (this.type === 'in') ? (- w - node_offset) : (node_offset + this.node_group.width()),
+      this.node_group.height() / 2 - h / 2);
   }
 
   positionNameTag() {
     let node_offset = 6
-    let bbox = this.name_tag.bbox();
+    let w = this.name_tag.width()
+    let h = this.name_tag.height()
+
     this.name_tag.move(
-      (this.type === 'in' ? node_offset + this.node.width() : - node_offset - bbox.w),
-      this.node.height() / 2 - bbox.h / 2);
+      (this.type === 'in' ? node_offset + w : - node_offset - w),
+      this.node.height() / 2 - h / 2);
   }
 
   x() {
@@ -137,28 +114,31 @@ class NodeView {
 
 
 class BlockView {
-  constructor({ prairie, id, shape_options, attr}) {
+  constructor({ prairie, id, shape_options, attr }) {
     this.id = id,
-    this.nodes = []
+      this.nodes = []
     this.connections = []
     this.prairie = prairie
-    this.block = new shapes.BlockShape(shape_options)
+    shape_options.svg = prairie.prairie_element
+    this.block = new htmlShapes.BlockShape(shape_options)
     this.blockshape_group = this.block.block_group
 
     this.GUI_editor_x = attr.GUI_editor_x || 0
     this.GUI_editor_y = attr.GUI_editor_y || 0
 
-    this.shown_in_GUI_editor = (attr.shown_in_GUI_editor === undefined ?  false : attr.shown_in_GUI_editor)
+    this.shown_in_GUI_editor = (attr.shown_in_GUI_editor === undefined ? false : attr.shown_in_GUI_editor)
 
     this.editor_x = undefined
     this.editor_y = undefined
 
     this.selected = false
 
+    this.block.block_group.draggable(true)
+
     // event trigger to Prairie that will then handle the block updating process
-    // when dagged (faster graphics than if using block's own dragmove event)
-    this.block.block_group.mousedown(() => this.prairie.block_mouse_down(this))
-    this.block.block_group.dblclick(() => this.prairie.block_dblclicked(this))
+    this.block.block_group.on('mousedown', () => this.prairie.block_mouse_down(this))
+    this.block.block_group.on('mousemove', () => this.update_connections())
+    this.block.block_group.on('dblclick', () => this.prairie.block_dblclicked(this))
     this.block.block_group.on('contextmenu', () => this.prairie.openContextMenu(this))
 
   }
@@ -169,9 +149,7 @@ class BlockView {
         _.each(nodes.in, (node, i) => {
           var new_node = new NodeView(this, node, this.prairie);
           this.nodes.push(new_node);
-          shapes.position_node(this.block, new_node.node_group, i, false, this.block.header)
-          this.block.block_group.add(new_node.node_group);
-          // new_node.node_group.back()
+          htmlShapes.position_node(this.block, new_node.node_group, i, false, this.block.header)
           this.prairie.nodes.push(new_node)
         })
       }
@@ -180,9 +158,7 @@ class BlockView {
         _.each(nodes.out, (node, i) => {
           var new_node = new NodeView(this, node, this.prairie);
           this.nodes.push(new_node);
-          shapes.position_node(this.block, new_node.node_group, i, true, this.block.header)
-          this.block.block_group.add(new_node.node_group);
-          // new_node.node_group.back()
+          htmlShapes.position_node(this.block, new_node.node_group, i, true, this.block.header)
           this.prairie.nodes.push(new_node)
         })
       }
@@ -206,10 +182,6 @@ class BlockView {
     }
   }
 
-  main_block_shape() {
-    return this.block.block_group.block
-  }
-
   x() {
     if (this.block) {
       return this.block.block_group.x()
@@ -226,10 +198,10 @@ class BlockView {
     let nodes_in = _.where(this.nodes, { type: 'in' })
     let nodes_out = _.where(this.nodes, { type: 'out' })
     if (nodes_in.length) {
-      _.each(nodes_in, (node, i) => { shapes.position_node(this.block, node.node_group, i, false, this.block.header) })
+      _.each(nodes_in, (node, i) => { htmlShapes.position_node(this.block, node.node_group, i, false, this.block.header) })
     }
     if (nodes_out.length) {
-      _.each(nodes_out, (node, i) => { shapes.position_node(this.block, node.node_group, i, true, this.block.header) })
+      _.each(nodes_out, (node, i) => { htmlShapes.position_node(this.block, node.node_group, i, true, this.block.header) })
     }
   }
 
@@ -242,11 +214,11 @@ class BlockView {
   }
 
   hide() {
-    this.block.block_group.hide()
+    // this.block.block_group.hide()
   }
 
   show() {
-    this.block.block_group.show()
+    // this.block.block_group.show()
   }
 
   setSelected(bool) {
@@ -262,9 +234,10 @@ class BlockView {
 }
 
 class FunctionBlockView extends BlockView {
-  constructor({ name, prairie, id, nodes, attr}) {
+  constructor({ name, prairie, id, nodes, attr }) {
     super({
-      prairie: prairie, id: id, nodes: nodes, shape_options: {
+      prairie: prairie, id: id, nodes: nodes,
+      shape_options: {
         svg: prairie.svg,
         nodes_in: nodes.in.length,
         nodes_out: nodes.out.length,
@@ -276,7 +249,7 @@ class FunctionBlockView extends BlockView {
         x: attr.x,
         y: attr.y
       },
-      attr: {...attr}
+      attr: { ...attr }
     })
 
     this.create_nodes(nodes, 'in')
@@ -293,27 +266,35 @@ class WidgetBlockView extends BlockView {
       node_cover_out: true,
       id: id,
       shape_options: shape_options,
-      attr: {...attr}
+      attr: { ...attr }
     });
 
     this.f_obj_id = 'fobj-' + this.name
-    this.fobj = this.prairie.svg.foreignObject(w, h).attr({ id: this.f_obj_id });
+    this.fobj = new htmlShapes.BlockHtmlShape(this.block.block_group.el)
+    this.fobj.el.setAttribute('id', this.f_obj_id)
+    this.fobj.addClass('fobj')
+    this.fobj.on('mousedown', (e) => e.stopPropagation())
+    this.fobj.on('scroll', (e) => e.stopPropagation())
+
+    this.fobj.appendChild = (type, attr) => {
+      let new_el = document.createElement(type)
+      _.each(attr, (value, key) => {
+        new_el.setAttribute(key, value)
+      })
+      this.fobj.el.appendChild(new_el)
+    }
 
     this.x_offset = 0
     this.y_offset = 3
 
     this.update()
 
-    this.shown_in_GUI_editor = (attr.shown_in_GUI_editor === undefined? true : attr.shown_in_GUI_editor)
+    this.shown_in_GUI_editor = (attr.shown_in_GUI_editor === undefined ? true : attr.shown_in_GUI_editor)
   }
 
   update_fobj_position() {
-    // let viewbox_offset_x = this.prairie.svg.viewbox().x
-    // let viewbox_offset_y = this.prairie.svg.viewbox().y
-    this.fobj.x(this.x() + this.x_offset);
-    this.fobj.y(this.y() + this.y_offset + (!(!this.block.solid_header == this.block.header) ? shapes.HEADER_H : 0));
-    // this.fobj.x(this.x_offset - viewbox_offset_x);
-    // this.fobj.y(this.y_offset + (!(!this.block.solid_header == this.block.header) ? shapes.HEADER_H : 0) - viewbox_offset_y);
+    this.fobj.x(this.x_offset + this.block.node_cover_in);
+    this.fobj.y(this.y_offset);
   }
 
   setzindex() {
@@ -335,26 +316,27 @@ class WidgetBlockView extends BlockView {
 
   setSelected(bool) {
     super.setSelected(bool)
-    if (bool) {
-      this.fobj.addClass('selected')
-      this.fobj.removeClass('unselected')
-    } else {
-      this.fobj.removeClass('selected')
-      this.fobj.addClass('unselected')
-    }
+    // if (bool) {
+    //   this.fobj.addClass('selected')
+    //   this.fobj.removeClass('unselected')
+    // } else {
+    //   this.fobj.removeClass('selected')
+    //   this.fobj.addClass('unselected')
+    // }
   }
 
-  show(){
+  show() {
     super.show()
     this.fobj.show()
   }
 
-  hide(){
+  hide() {
     super.hide()
     this.fobj.hide()
   }
 
 }
+
 
 class CodeCodeBlockView extends WidgetBlockView {
   constructor({ name,
@@ -386,7 +368,7 @@ class CodeCodeBlockView extends WidgetBlockView {
         x: attr.x,
         y: attr.y
       },
-      attr: {...attr}
+      attr: { ...attr }
     })
 
     this.create_nodes(nodes, 'in')
@@ -435,7 +417,7 @@ class CodeCodeBlockView extends WidgetBlockView {
     this.update()
   }
 
-  setFobjXOffset(){
+  setFobjXOffset() {
     this.x_offset = 5 + this.block.node_cover_in
   }
 
@@ -447,6 +429,8 @@ class CodeCodeBlockView extends WidgetBlockView {
     this.editor.setValue(value.toString());
   }
 
+
+  //TBM
   changeBlockandStyle(shape_options) {
     this.block.block_group.remove()
     this.block = new shapes.BlockShape(shape_options)
@@ -464,9 +448,9 @@ class CodeCodeBlockView extends WidgetBlockView {
   }
 
   updateBlockShapeAndNodes(model) {
-    function maxNameLength(nodes){
+    function maxNameLength(nodes) {
       return Math.max(..._.map(nodes, (node) => {
-        return node.name.length*8 + 15
+        return node.name.length * 8 + 15
       }))
     }
 
@@ -480,7 +464,7 @@ class CodeCodeBlockView extends WidgetBlockView {
     // this.block.node_cover_in = this.block.n_nodes_in ? 25 : 0
     // this.block.node_cover_out =  this.block.n_nodes_out ? 25 : 0
     this.block.node_cover_in = this.block.n_nodes_in ? maxNameLength(model.nodes.in) : 0
-    this.block.node_cover_out =  this.block.n_nodes_out ? maxNameLength(model.nodes.out) : 0
+    this.block.node_cover_out = this.block.n_nodes_out ? maxNameLength(model.nodes.out) : 0
     this.block.resize()
 
     this.nodes = []
@@ -493,39 +477,6 @@ class CodeCodeBlockView extends WidgetBlockView {
     this.update_block()
 
     this.redraw_nodes()
-
-    // this.block.block_group.remove()
-    // this.block = new shapes.BlockShape({
-    //   svg: svg,
-    //   nodes_in: model.nodes.in.length,
-    //   nodes_out: model.nodes.out.length,
-    //   name: model.name,
-    //   header: false,
-    //   node_cover_out: model.nodes.out.length ? 25 : 0,
-    //   node_cover_in: model.nodes.in.length ? 25 : 0,
-    //   style: 'input-block',
-    //   x: x,
-    //   y: y
-    // })
-
-    // this.blockshape_group = this.block.block_group
-    // this.block.block_group.mousedown(() => this.prairie.block_mouse_down(this))
-
-    // _.each(this.nodes, (node, i) => {
-    //   if (_.each(model.nodes.in.concat(model.nodes.out), (nodem) => {
-    //     return nodem.id
-    //   }).indexOf(node.id) == -1) {
-    //     node.node_group.remove()
-    //     this.nodes.splice(i, 1)
-    //   } else {
-    //     node.block = this
-    //     this.block.block_group.add(node.node_group)
-    //   }
-    // })
-
-    // this.update()
-    // this.redraw_nodes()
-    // this.update_block()
   }
 }
 
@@ -558,7 +509,7 @@ class CodeBlockView extends WidgetBlockView {
         x: attr.x,
         y: attr.y
       },
-      attr: {...attr}
+      attr: { ...attr }
     })
 
     this.create_nodes(nodes, 'out')
@@ -571,11 +522,6 @@ class CodeBlockView extends WidgetBlockView {
     this.line_h = 19
     this.el_id = this.prairie.name + this.id
     this.fobj.appendChild("textarea", { id: this.el_id, name: 'code' })
-    // let textarea = document.createElement("textarea");  
-    // textarea.classList.add('custom-foreign-object')
-    // textarea.setAttribute('id', this.el_id)
-    // textarea.setAttribute('name', 'code')
-    // document.getElementById('prairie').appendChild(textarea)
 
     this.editor = CodeMirror.fromTextArea(document.getElementById(this.el_id), {
       mode: 'python',
@@ -586,27 +532,32 @@ class CodeBlockView extends WidgetBlockView {
       height: 'auto',
     });
 
+    this.edtior_wrapper = this.editor.getWrapperElement()
+    this.edtior_wrapper.addEventListener('mousedown', (e) => {
+      e.stopPropagation()
+    })
+
     this.editor.setValue(attr.value)
 
     this.x_offset = 5
-    this.y_offset = 8
+    this.y_offset = 4
     this.max_height = 200
 
     this.update_block()
-    this.editor.on("change", () => this.update_block())
+    this.editor.on("changes", () => {
+      this.update_block()
+    })
   }
 
   update_block() {
 
-    let new_w = Math.max(this.editor.display.maxLineLength * this.letter_w + this.initial_w, this.block.min_content_width() - this.x_offset)
-    let new_h = Math.min(this.editor.lineCount() * this.line_h + 20, this.max_height) //+ 2 * this.y_offset)
+    let new_w = Math.max(this.edtior_wrapper.offsetWidth + 2 * this.x_offset, this.block.min_content_width() - this.x_offset)
+    let new_h = Math.min(this.edtior_wrapper.offsetHeight + 2 * this.y_offset, this.max_height) //+ 2 * this.y_offset)
 
     this.block.resize_content(new_w, new_h)
 
     this.w = this.block.content_w
     this.h = this.block.block_group.height()
-    this.editor.setSize(new_w, new_h - 2 * this.y_offset)
-    this.fobj.size(new_w, new_h);
     this.redraw_nodes()
     this.update()
   }
@@ -620,6 +571,7 @@ class CodeBlockView extends WidgetBlockView {
     this.editor.setValue(value.toString());
   }
 
+  // TBM
   changeBlockandStyle(shape_options) {
     this.block.block_group.remove()
     this.block = new shapes.BlockShape(shape_options)
@@ -659,23 +611,25 @@ class VariableBlockView extends CodeBlockView {
 
     this.rename_when_connect = true
 
-    this.changeBlockandStyle({
-      svg: prairie.svg,
-      nodes_in: 0,
-      nodes_out: 1,
-      name: name,
-      solid_header: false,
-      header: true,
-      node_cover_out: 20,
-      style: 'input-block',
-      x: attr.x,
-      y: attr.y
-    })
+    // this.changeBlockandStyle({
+    //   svg: prairie.svg,
+    //   nodes_in: 0,
+    //   nodes_out: 1,
+    //   name: name,
+    //   solid_header: false,
+    //   header: true,
+    //   node_cover_out: 20,
+    //   style: 'input-block',
+    //   x: attr.x,
+    //   y: attr.y
+    // })
   }
 
   rename(name) {
     this.name = name
-    this.block.rename(name)
+    if (this.block.block_group.name) {
+      this.block.block_group.name.text(name)
+    }
   }
 }
 
@@ -716,7 +670,7 @@ class StaticCodeBlockView extends CodeBlockView {
     })
 
     this.editor.setOption('lineNumbers', true)
-    this.block.block_group.mousedown((e) => { e.preventDefault() })
+    this.block.block_group('mousedown', (e) => { e.preventDefault() })
     this.blockshape_group.draggable(false)
 
   }
@@ -751,7 +705,7 @@ class OutputCodeBlockView extends WidgetBlockView {
         x: attr.x,
         y: attr.y
       },
-      attr: {...attr}
+      attr: { ...attr }
     })
 
     this.create_nodes(nodes, 'in')
@@ -761,9 +715,6 @@ class OutputCodeBlockView extends WidgetBlockView {
 
     this.max_height = 300
 
-    this.letter_w = 7
-    this.letter_h = 3
-    this.line_h = 19
     this.el_id = this.prairie.name + this.id
     this.fobj.appendChild("textarea", { id: this.el_id, name: 'code' })
 
@@ -777,26 +728,31 @@ class OutputCodeBlockView extends WidgetBlockView {
       height: 'auto',
     });
 
+    this.edtior_wrapper = this.editor.getWrapperElement()
+    this.edtior_wrapper.addEventListener('mousedown', (e) => {
+      e.stopPropagation()
+    })
+
     this.editor.setValue(attr.value)
 
-    this.x_offset = 20 + shapes.BLOCK_R / 2
-    this.y_offset = 8
+    this.x_offset = 5
+    this.y_offset = 4
 
     this.update_block()
-    this.editor.on("change", () => this.update_block())
+    this.editor.on("changes", () => {
+      this.update_block()
+    })
 
   }
 
   update_block() {
-    let new_w = this.editor.display.maxLineLength * this.letter_w + this.initial_w
-    let new_h = Math.min(this.editor.lineCount() * this.line_h + 20, this.max_height) //+ 2 * this.y_offset)
+    let new_w = Math.max(this.edtior_wrapper.offsetWidth + 2 * this.x_offset, this.block.min_content_width() - this.x_offset)
+    let new_h = Math.min(this.edtior_wrapper.offsetHeight + 2 * this.y_offset, this.max_height) //+ 2 * this.y_offset)
 
     this.block.resize_content(new_w, new_h)
 
     this.w = this.block.content_w
     this.h = this.block.block_group.height()
-    this.editor.setSize(new_w, new_h - 2 * this.y_offset)
-    this.fobj.size(new_w, new_h);
     this.redraw_nodes()
   }
 
@@ -839,7 +795,7 @@ class PlotBlockView extends WidgetBlockView {
         x: attr.x,
         y: attr.y
       },
-      attr: {...attr}
+      attr: { ...attr }
     })
 
     // NODES
@@ -852,7 +808,7 @@ class PlotBlockView extends WidgetBlockView {
     this.margin_w = 3
     this.margin_h = 8
 
-    this.x_offset = this.margin_w + shapes.BLOCK_R / 2 + this.block.node_cover_in
+    this.x_offset = this.margin_w
     this.y_offset = this.margin_h
 
     this.bokeh_tools_icon_size = 30;
@@ -903,10 +859,10 @@ class PlotBlockView extends WidgetBlockView {
       x: x,
       y: y,
       type: 'line',
-      line:{width: 1},
+      line: { width: 1 },
       hoverinfo: 'none'
     };
-    
+
     var layout = {
       autosize: false,
       width: this.min_w + 40,
@@ -940,7 +896,7 @@ class PlotBlockView extends WidgetBlockView {
       },
       paper_bgcolor: 'rgba(0,0,0,0)',
       plot_bgcolor: 'rgba(0,0,0,0)',
-      modebar: {orientation: 'v', bgcolor: 'white'}
+      modebar: { orientation: 'v', bgcolor: 'white' }
     };
 
     plotly.newPlot(this.el_id, [trace1], layout,
@@ -958,7 +914,7 @@ class PlotBlockView extends WidgetBlockView {
       });
 
   }
-  
+
 }
 
 class ImageBlockView extends WidgetBlockView {
@@ -991,7 +947,7 @@ class ImageBlockView extends WidgetBlockView {
         x: attr.x,
         y: attr.y
       },
-      attr: {...attr}
+      attr: { ...attr }
     })
 
     // NODES
@@ -1004,7 +960,7 @@ class ImageBlockView extends WidgetBlockView {
     this.margin_w = 6
     this.margin_h = 12
 
-    this.x_offset = this.margin_w + shapes.BLOCK_R / 2 + this.block.node_cover_in
+    this.x_offset = this.margin_w
     this.y_offset = this.margin_h
 
     this.bokeh_tools_icon_size = 30;
@@ -1068,15 +1024,31 @@ class ImageBlockView extends WidgetBlockView {
       width: this.min_w + 30,
       height: this.min_h - 30,
       margin: {
-        l: 50,
-        r: 50,
-        b: 10,
+        l: 35,
+        r: 35,
+        b: 25,
         t: 10,
-        pad: 4
+        pad: 0
+      },
+      xaxis: {
+        zeroline: false,
+        showline: true,
+        mirror: 'axe',
+        linecolor: 'lightgrey',
+        ticks: 'outside',
+        tickcolor: 'grey'
+      },
+      yaxis: {
+        zeroline: false,
+        showline: true,
+        mirror: 'axe',
+        linecolor: 'lightgrey',
+        ticks: 'outside',
+        tickcolor: 'grey'
       },
       font: {
         family: 'Roboto Mono',
-        size: 11,
+        size: 10,
       },
     };
 
@@ -1100,6 +1072,83 @@ class ImageBlockView extends WidgetBlockView {
   }
 }
 
+class MatrixBlockView extends WidgetBlockView {
+  constructor({ name,
+    prairie,
+    nodes,
+    id: id,
+    init_w: init_w = 10,
+    init_h: init_h = 80,
+    tools: tools = [],
+    attr: attr = {} }) {
+
+    super({
+      name: name,
+      w: init_w,
+      h: init_h,
+      prairie: prairie,
+      id: id,
+      tools: tools,
+      attr: attr,
+      shape_options: {
+        svg: prairie.svg,
+        nodes_in: 1,
+        nodes_out: 0,
+        name: name,
+        header: false,
+        node_cover_in: 20,
+        style: 'block',
+        x: attr.x,
+        y: attr.y
+      },
+      attr: { ...attr }
+    })
+
+    this.create_nodes(nodes, 'in')
+
+    this.initial_w = init_w
+    this.initial_h = init_h
+
+    // this.max_height = 300
+
+    this.el_id = this.prairie.name + this.id
+
+    this.x_offset = 8
+    this.y_offset = 4
+
+    this.setValue('\LateX')
+  }
+
+  update_block() {
+    let new_w = Math.max(this.fobj.el.offsetWidth + 2 * this.x_offset) //, this.block.min_content_width() - this.x_offset)
+    let new_h = Math.max(this.fobj.el.offsetHeight + 2 * this.y_offset, this.max_height || 0) //+ 2 * this.y_offset)
+
+    this.block.resize_content(new_w, new_h)
+
+    this.w = this.block.content_w
+    this.h = this.block.block_group.height()
+    this.redraw_nodes()
+  }
+
+  getValue() {
+    // return this.editor.getValue();
+    return 0
+  }
+
+  setValue(value) {
+    // this.editor.setValue(value.toString());
+    this.value = value
+    console.log(value)
+    katex.render(value, this.fobj.el, {
+      throwOnError: false,
+      // displayMode: true,
+    });
+    this.update_block()
+    this.update()
+  }
+}
+
+
 
 export {
   BlockView,
@@ -1112,5 +1161,7 @@ export {
   ImageBlockView,
   VariableBlockView,
   StaticCodeBlockView,
-  CodeCodeBlockView
+  CodeCodeBlockView,
+  WidgetHtmlBlockView,
+  MatrixBlockView
 }
