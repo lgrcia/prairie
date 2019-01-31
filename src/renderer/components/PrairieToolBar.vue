@@ -20,7 +20,8 @@ export default {
     return {
       buttons: {
         play: "play",
-        gui_editor: "gui-editor"
+        gui_editor: "gui-editor",
+        zoom: "zoom"
       },
       test: 0
     };
@@ -37,6 +38,13 @@ export default {
       } else if (button == "gui_editor") {
         this.$store.dispatch("eventToPrairie", {
           name: "setGUIEditorMode"
+        });
+      } else if (button == "zoom") {
+        this.$store.dispatch("eventToPrairie", {
+          name: "zoom",
+          data: {
+            factor: 0.7
+          }
         });
       }
     }
@@ -118,12 +126,12 @@ $width: 220px;
   color: $UI-color-active;
 }
 
-.explorer-button::before{
+.explorer-button::before {
   font-family: $icon-font-family;
   font-style: normal;
 }
 
-.play::before{
+.play::before {
   @include menu-icon($play);
 }
 
@@ -131,4 +139,7 @@ $width: 220px;
   @include menu-icon($gui-editor);
 }
 
+.zoom:before {
+  @include menu-icon($zoom);
+}
 </style>

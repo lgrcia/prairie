@@ -1,6 +1,6 @@
 <template>
   <div class="block-item" v-on:dragstart="dragstart">
-    <img class="block-icon" :src="svgSource">
+    <img class="block-icon" :src="svgSource" ref="block-icon">
     <div class="title-cont">
       <div class="title" :class="{small: this.cName>1000}">{{cName}}</div>
     </div>
@@ -8,7 +8,6 @@
 </template>
 
 <script>
-const SVGInject = require("@iconfu/svg-inject");
 const path = require("path");
 const fs = require("fs");
 
@@ -25,11 +24,40 @@ export default {
   },
   computed: {
     svgSource: function() {
-      let svgPath_block = path.join("src/blocks", path.basename(this.path, '.py'), "icons", this.cName + ".svg");
-      let svgPath_lib = path.join("src/blocks", path.basename(this.path, '.py'), this.cName + ".svg");
+      let svgPath_block = path.join(
+        "src/blocks",
+        path.basename(this.path, ".py"),
+        "icons",
+        this.cName + ".svg"
+      );
+      let svgPath_lib = path.join(
+        "src/blocks",
+        path.basename(this.path, ".py"),
+        this.cName + ".svg"
+      );
       if (fs.existsSync(svgPath_block)) {
         return svgPath_block;
-      } else if (fs.existsSync(svgPath_lib)){
+      } else if (fs.existsSync(svgPath_lib)) {
+        return svgPath_lib;
+      } else {
+        return "src/blocks/default.svg";
+      }
+    },
+    svgPath: function() {
+      let svgPath_block = path.join(
+        "src/blocks",
+        path.basename(this.path, ".py"),
+        "icons",
+        this.cName + ".svg"
+      );
+      let svgPath_lib = path.join(
+        "src/blocks",
+        path.basename(this.path, ".py"),
+        this.cName + ".svg"
+      );
+      if (fs.existsSync(svgPath_block)) {
+        return svgPath_block;
+      } else if (fs.existsSync(svgPath_lib)) {
         return svgPath_lib;
       } else {
         return "src/blocks/default.svg";
@@ -60,11 +88,12 @@ export default {
           model: {
             file_path: this.path,
             function_name: this.name,
-            svg_path: this.svg_path,
-            icon_text: this.icon_text
+            icon_svg_img: this.spath
           }
         })
       );
+      var img = this.$refs["block-icon"];
+      event.dataTransfer.setDragImage(img, 0, 0);
     },
     getSource: function(path) {
       return require(path);
@@ -152,7 +181,7 @@ $svg-background-color: #ffffff;
 }
 
 .block-item:hover .block-icon {
-    opacity: 1;
+  opacity: 1;
 }
 
 .block-item:hover .title {

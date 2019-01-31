@@ -1,5 +1,3 @@
-// import { Menu, MenuItem } from 'electron';
-
 const uuid = require('uuid/v4')
 const view = require('./blocks/blockViews')
 const pythonParser = require('./python_parser')
@@ -15,9 +13,6 @@ const blocks = blocks2.blocks
 
 const { remote } = require('electron')
 const { Menu, MenuItem, dialog } = remote
-
-// const PORT = 8886;
-// const MAIN_SERVER_NETWORK = 12180212
 
 class EventTarget {
   constructor() {
@@ -63,18 +58,17 @@ class PrairieController {
 
     this.view.svg.on('connection-creation', (e) => { this.createConnection(e.detail) })
 
-    this.view.svg.on('node_catched', (e) => {
+    this.view.eventTarget.addEventListener('node-catched', (e) => {
       this.removeConnection(this.getNodeModelbyId(
         e.detail.block_id,
         e.detail.node_id).connections[0])
     });
 
-    this.view.svg.on('block_creation', (e) => {
+    this.view.eventTarget.addEventListener('block-creation', (e) => {
       this.addBlock(e.detail.type, e.detail.model)
     });
 
     this.view.svg.on('block-selected', (e) => {
-      // this.controller_model.selected_block = e.detail.block
       if (e.detail.block) {
         this.eventTarget.dispatchEvent(new CustomEvent('block-selected', { detail: this.getBlockModelById(e.detail.block.id) }))
       } else {
@@ -114,6 +108,10 @@ class PrairieController {
     this.eventTarget.addEventListener('closeMainWS', (e) => {
       this.closeMainWS()
       this.view.svg.doc().remove()
+    })
+
+    this.eventTarget.addEventListener('zoom', (e) => {
+      this.view.zoom(e.detail.factor)
     })
 
   }
@@ -405,7 +403,9 @@ class PrairieController {
       name: model_view.name || 'unnamed',
       prairie: this.view,
       nodes: model.nodes,
-      attr: { value: model.value || '', ...model_view }
+      attr: { 
+        value: model.value || '', 
+        ...model_view, svg: document.getElementById('prairie')}
     })
 
     this.waitForMainWS(() => { this.WScreation = this.mainWS.createBlockServerWS(model) })

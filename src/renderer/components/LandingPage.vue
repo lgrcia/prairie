@@ -32,25 +32,37 @@ export default {
     PrairieToolBar
   },
   mounted: function() {
-    // this.prairie_ctr = new PrairieController('prairie', 'DEF')
-    // this.prairie_ctr.loadModel('/Users/lgr/Code/PrairieJS/Prairie_project/airy_demo.pr')
-    // this.prairie_ctr.loadModel('/Users/lgr/Code/test_pr_code.pr')
+    // let model = {
+    //   name: 'test_gui_save_2.pr',
+    //   path: '/Users/lgr/Code/prairie-vue/src/prairie/tests/test_gui_save_2.pr'
+    // }
+    // let new_prairie = new PrairieController(
+    //   "prairie",
+    //   model.name,
+    //   this.$store.state.Tabs.prairie_n
+    // );
+    // new_prairie.loadModel(model.path, () => {
+    //   this.$store.dispatch("addTab", {
+    //     model: model,
+    //     content: new_prairie.eventTarget
+    //   });
+    // });
 
     document.addEventListener("keydown", event => {
       const keyName = event.key;
-      console.log(keyName);
+      // console.log(keyName);
       if (event.shiftKey) {
         if (keyName === "Enter") {
-          console.log("run");
+          // console.log("run");
           this.$store.dispatch("eventToPrairie", {
             name: "updateModelAndRun"
           });
         } else if (keyName == "M") {
-          console.log("move");
+          // console.log("move");
           this.prairie_ctr.setGUIEditorMode();
         } else if (keyName == "E") {
           let zoom = 0.8;
-          console.log("zoom");
+          // console.log("zoom");
           let svg = this.prairie_ctr.view.svg;
           svg.zoom(zoom);
           svg.viewbox(0, 0, svg.viewbox().width, svg.viewbox().height);
@@ -58,8 +70,8 @@ export default {
           this.$store.dispatch("eventToPrairie", {
             name: "saveModel",
             data: {
-              filename: 'test_gui_save.pr',
-              fpath: '/Users/lgr/Code/prairie-vue/src/prairie',
+              filename: "test_gui_save.pr",
+              fpath: "/Users/lgr/Code/prairie-vue/src/prairie"
             }
           });
         }
@@ -80,20 +92,20 @@ export default {
         }
       });
 
-      this.prairie_ctr = new PrairieController("prairie", "DEF");
-      this.$store.dispatch(
-        "setPrairieEventHandler",
-        this.prairie_ctr.eventTarget
-      );
-      // this.prairie_ctr.addBlock("code", {
-      //   file_path: "/Users/lgr/Code/prairie-vue/src/blocks/basics.py",
-      //   id: "test_el"
+      // this.prairie_ctr = new PrairieController("prairie", "DEF");
+      // this.$store.dispatch(
+      //   "setPrairieEventHandler",
+      //   this.prairie_ctr.eventTarget
+      // );
+      // // this.prairie_ctr.addBlock("code", {
+      // //   file_path: "/Users/lgr/Code/prairie-vue/src/blocks/basics.py",
+      // //   id: "test_el"
+      // // });
+      // this.prairie_ctr.eventTarget.addEventListener("block-selected", e => {
+      //   this.$store.dispatch("blockSelected", e.detail);
       // });
-      this.prairie_ctr.eventTarget.addEventListener("block-selected", e => {
-        this.$store.dispatch("blockSelected", e.detail);
-      });
-      let block_model = this.prairie_ctr.getBlockModelById("test_el");
-      let new_bm = _.clone(block_model);
+      // let block_model = this.prairie_ctr.getBlockModelById("test_el");
+      // let new_bm = _.clone(block_model);
       // new_bm.nodes.in.push({
       //   name: "n",
       //   id: "node-test",
@@ -127,9 +139,9 @@ export default {
       return this.$store.state.Tabs.selectedBlock;
     }
   },
-  // mounted: function() {
-  //   // this.addPrairieTab()
-  // }
+  mounted: function() {
+    // this.addPrairieTab()
+  }
 };
 </script>
 

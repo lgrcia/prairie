@@ -39,18 +39,18 @@ class ConnectionView {
 
   update_from_nodes() {
     //node out group position
-    let g_out_x = this.node_out.block.x()
-    let g_out_y = this.node_out.block.y()
+    let g_out_x = this.node_out.block.block.block_group.x()
+    let g_out_y = this.node_out.block.block.block_group.y()
     // node in group position
-    let g_in_x = this.node_in.block.x()
-    let g_in_y = this.node_in.block.y()
+    let g_in_x = this.node_in.block.block.block_group.x()
+    let g_in_y = this.node_in.block.block.block_group.y()
 
     // node out center position
-    let center_out_x = g_out_x + this.node_out.x() + this.node_out.height() / 2
-    let center_out_y = g_out_y + this.node_out.y() + this.node_out.height() / 2
+    let center_out_x = g_out_x + this.node_out.node_group.x() + this.node_out.node.x() + this.node_out.height() / 2
+    let center_out_y = g_out_y + this.node_out.node_group.y() + this.node_out.node.y() + this.node_out.height() / 2
     //node in center position
-    let center_in_x = g_in_x + this.node_in.x() + this.node_in.width() / 2
-    let center_in_y = g_in_y + this.node_in.y() + this.node_in.width() / 2
+    let center_in_x = g_in_x + this.node_in.node_group.x() + this.node_in.node.x() + this.node_in.width() / 2
+    let center_in_y = g_in_y + this.node_in.node_group.y() + this.node_in.node.y() + this.node_in.width() / 2
 
     let x1 = center_out_x + (center_in_x - center_out_x) / 2
 
@@ -62,17 +62,17 @@ class ConnectionView {
   }
 
   update_from_event(event) {
-    let gx = this.node_out.block.x()
-    let gy = this.node_out.block.y()
+    let gx = this.node_out.block.block.block_group.x()
+    let gy = this.node_out.block.block.block_group.y()
 
     // mouse position
     let prairie_global = this.prairie.rbox()
     let x = event.clientX - prairie_global.x;
     let y = event.clientY - prairie_global.y;
 
-    let x0 = gx + this.node_out.node_group.x() + this.node_out.node.width() / 2
+    let x0 = gx + this.node_out.node.x() + this.node_out.node.width() / 2
     let x1 = x0 + (x - x0) / 2
-    let y0 = gy + this.node_out.node_group.y() + this.node_out.node.height() / 2
+    let y0 = gy + this.node_out.node.y() + this.node_out.node.height() / 2
 
     this.connection.plot([
       x0, y0,
@@ -112,7 +112,7 @@ class ConnectionView {
 
 class Prairie {
   constructor(id, name) {
-    this.svg = SVG(id).size(3000, 3000).attr({id: name})//.panZoom({zoomMin: 0.2, zoomMax: 1});
+    this.svg = SVG(id).size(3000, 3000).attr({ id: name })//.panZoom({zoomMin: 0.2, zoomMax: 1});
 
     this.eventTarget = new EventTarget();
 
@@ -120,6 +120,13 @@ class Prairie {
     this.offsetLeft = document.getElementById(id).offsetLeft
 
     this.prairie_element = document.getElementById(id)
+    this.prairie_element.style.position = 'relative'
+
+    this.current_zoom = 1
+    this.min_zoom = 0.65
+    this.max_zoom = 1
+
+    this.prairie_element.style.zoom = this.zoom
 
     this.prairie_element.addEventListener('scroll', () => {
       this.offsetTop = this.prairie_element.offsetTop - this.prairie_element.scrollTop
@@ -151,45 +158,34 @@ class Prairie {
     this.nodes = []
     this.connections = []
 
-    this.svg.mouseup(() => this.mouse_up());
-    this.svg.mousemove(event => this.mouse_move(event));
+    this.prairie_element.addEventListener('mouseup', () => this.mouse_up());
+    this.prairie_element.addEventListener('mousemove', event => this.mouse_move(event));
 
-    this.svg.on('dragover', (event) => {
+    this.prairie_element.addEventListener('dragover', (event) => {
       event.preventDefault()
     })
 
-    this.svg.on('panStart', (event) => (
-      _.each(this.blocks, (block) => {
-        if (block instanceof blocks.WidgetBlockView) {
-          block.update_fobj_position()
-        }
-      })
-    ))
-
-    this.svg.on('panEnd', (event) => (
-      _.each(this.blocks, (block) => {
-        if (block instanceof blocks.WidgetBlockView) {
-          block.update_fobj_position()
-        }
-      })
-    ))
-
-    this.svg.on('drop', (event) => {
+    this.prairie_element.addEventListener('drop', (event) => {
+      console.log('drop')
       let data = JSON.parse(event.dataTransfer.getData("text"));
       data.model.model_view = {
         x: event.clientX - this.offsetLeft,
         y: event.clientY - this.offsetTop,
       }
-      this.svg.fire('block_creation', { ...data })
+      this.eventTarget.dispatchEvent(new CustomEvent('block-creation', {
+        detail: {
+          ...data
+        }
+      }))
     })
 
     this.prairie_element.addEventListener('wheel', (e) => {
-      // if (e.target.id === id){
       e.preventDefault()
       this.prairie_element.scrollTop += e.deltaY
       this.prairie_element.scrollLeft += e.deltaX
 
     })
+
 
     // this.prairie.on('zoom', () => {
     //   for (let block of this.getWidgetBlocks()){
@@ -199,7 +195,7 @@ class Prairie {
 
     // this.prairie.on('connection', function(){console.log('salut');})
 
-    this.all_blocks_draggable(false);
+    // this.all_blocks_draggable(false);
 
     //   this.static_code_editor = undefined
     //   new blocks.StaticCodeBlockView({
@@ -247,7 +243,7 @@ class Prairie {
 
   all_blocks_draggable(bool) {
     for (let blockview of this.blocks) {
-      blockview.blockshape_group.draggable(bool)
+      blockview.block.block_group.draggable(bool)
     }
   }
 
@@ -256,13 +252,26 @@ class Prairie {
     // MODIFIYNG
     this._connection_creation_mode = true;
     if (node.type === 'in') {
-      this.svg.fire('node_catched', {
-        block_id: node.block.id,
-        node_id: node.id
-      })
+      this.eventTarget.dispatchEvent(new CustomEvent('node-catched', {
+        detail: {
+          block_id: node.block.id,
+          node_id: node.id
+        }
+      }))
     }
+
     this.all_blocks_draggable(false);
     this.draw_connection_preview();
+  }
+
+  zoom(factor = undefined) {
+    if (this.current_zoom === 1) {
+      this.current_zoom = this.min_zoom
+    } else {
+      this.current_zoom = 1
+    }
+
+    this.prairie_element.style.zoom = this.current_zoom
   }
 
   node_mouse_up(node) {
@@ -288,7 +297,7 @@ class Prairie {
     this._resizing_mode = false;
     this.unselectAllBlocks(false)
     this.dimAllConnections(false)
-    this.svg.fire('block-selected', {block: undefined})
+    this.svg.fire('block-selected', { block: undefined })
 
     if (this._last_item_clicked instanceof blocks.WidgetBlockView) {
       this._last_item_clicked.update_fobj_position()
@@ -301,7 +310,7 @@ class Prairie {
     this.unselectAllBlocks()
     this.dimAllConnections()
     block.setSelected(true)
-    this.svg.fire('block-selected', {block: block})
+    this.svg.fire('block-selected', { block: block })
   }
 
   unselectAllBlocks(bool = true) {
@@ -354,13 +363,13 @@ class Prairie {
     }
   }
 
-  blocktool_mouse_down(tool) {
-    if (tool.type == 'resize') {
-      this.all_blocks_draggable(false);
-      this._resizing_mode = true
-      this._last_item_clicked = tool
-    }
-  }
+  // blocktool_mouse_down(tool) {
+  //   if (tool.type == 'resize') {
+  //     this.all_blocks_draggable(false);
+  //     this._resizing_mode = true
+  //     this._last_item_clicked = tool
+  //   }
+  // }
 
   getClosestNode(e, radius = 40) {
     // TODO: optimize
@@ -384,7 +393,7 @@ class Prairie {
     return _.filter(this.blocks, function (block) { return block instanceof blocks.WidgetBlockView })
   }
 
-  setGUIEditorMode(bool, callback = function(){}) {
+  setGUIEditorMode(bool, callback = function () { }) {
     if (bool) {
       _.each(this.blocks, (block) => {
         if (!block.shown_in_GUI_editor) {
@@ -401,7 +410,7 @@ class Prairie {
     }
   }
 
-  animateBlockToGUIEditorPositions(callback = function(){}) {
+  animateBlockToGUIEditorPositions(callback = function () { }) {
     this._editor_mode_changing = true
     _.each(this.blocks, (block) => {
       if (block.shown_in_GUI_editor) {
@@ -411,7 +420,7 @@ class Prairie {
         }
         block.editor_x = block.block.block_group.x()
         block.editor_y = block.block.block_group.y()
-        block.block.block_group.animate(300, '<>').move(block.GUI_editor_x, block.GUI_editor_y).during(() => { block.update() }).afterAll(() => { block.update() }).afterAll(() => { 
+        block.block.block_group.animate(300, '<>').move(block.GUI_editor_x, block.GUI_editor_y).during(() => { block.update() }).afterAll(() => { block.update() }).afterAll(() => {
           this._editor_mode_changing = false
           callback()
         })
@@ -419,7 +428,7 @@ class Prairie {
     })
   }
 
-  animateBlockToEditorPositions(callback = function(){}) {
+  animateBlockToEditorPositions(callback = function () { }) {
     this._editor_mode_changing = true
     _.each(this.blocks, (block) => {
       if (block.shown_in_GUI_editor) {
@@ -437,7 +446,7 @@ class Prairie {
           })
         }).afterAll(() => {
           _.each(this.blocks, (block) => {
-              block.show()
+            block.show()
           })
         }).afterAll(() => {
           this._editor_mode_changing = false
@@ -456,18 +465,18 @@ class Prairie {
     })
   }
 
-  addBlockInputOrOutput(node){
+  addBlockInputOrOutput(node) {
     this.svg.fire('addBlockInputOrOutput', node)
   }
 
-  openContextMenu(blockView){
+  openContextMenu(blockView) {
     this.svg.fire('openContextMenu', blockView)
   }
 
-  removeBlock(id){
-    let blockView = _.findWhere(this.blocks, {id: id})
+  removeBlock(id) {
+    let blockView = _.findWhere(this.blocks, { id: id })
     blockView.block.block_group.remove()
-    if(blockView.fobj){blockView.fobj.remove()}
+    if (blockView.fobj) { blockView.fobj.remove() }
     this.blocks = _.without(this.blocks, blockView)
     _.each(blockView.nodes, (node) => {
       this.nodes = _.without(this.nodes, node)
