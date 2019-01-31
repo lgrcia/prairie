@@ -64,12 +64,13 @@ $UI-border: $UI-border-width solid;
   flex-direction: row;
   display: flex;
   flex: 1;
-  background: darken($UI-background-color, 0%);
+  background: darken($UI-background-color, 3%);
   border-radius: 0;
   border-bottom: $UI-border $UI-border-color;
   overflow-y: hidden;
-  min-width: 100%;
-  min-height: 38px;
+  // min-width: 100%;
+  min-height: 30px;
+    width: 100%;
 }
 
 .tab-item {
@@ -80,26 +81,26 @@ $UI-border: $UI-border-width solid;
   position: relative;
   text-align: left;
   line-height: 2em;
-  height: 35px;
+  height: 36px;
   min-width: 100px;
-  border-top: 3px solid $UI-background-color;
+  // border-top: 3px solid $UI-background-color;
   color: $UI-border-color;
   user-select: none;
   border-right: $UI-border $UI-border-color;
-  border-bottom: 5px solid white;
+  // border-bottom: 5px solid white;
   margin-bottom: -4px;
 }
 
 .tab-item.active {
-  border-top: 3px solid $UI-color-active;
-  background-color: $UI-background-focus-color;
+  // border-top: 3px solid $UI-color-active;
+  background-color: $UI-background-color;
 }
 
 .tab-item .title {
   display: inline-block;
   font-family: system-ui;
   font-size: 12px;
-  color: lighten($UI-font-color, 30%);
+  color: lighten($UI-font-color, 40%);
   margin-left: 25px;
   margin-right: 10px;
   vertical-align: middle;
@@ -131,7 +132,7 @@ $UI-border: $UI-border-width solid;
 }
 
 .tab-item.active .title {
-  color: $UI-font-color;
+  color: lighten($UI-font-color, 10%);
 }
 
 .tab-item.active:before {

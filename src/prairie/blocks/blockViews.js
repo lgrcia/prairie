@@ -1096,7 +1096,7 @@ class MatrixBlockView extends WidgetBlockView {
         nodes_out: 0,
         name: name,
         header: false,
-        node_cover_in: 20,
+        // node_cover_in: 20,
         style: 'block',
         x: attr.x,
         y: attr.y
@@ -1113,14 +1113,15 @@ class MatrixBlockView extends WidgetBlockView {
 
     this.el_id = this.prairie.name + this.id
 
-    this.x_offset = 8
-    this.y_offset = 4
+    this.x_offset = 6
+    this.y_offset = 8
 
     this.setValue('\LateX')
+    this.update_block()
   }
 
   update_block() {
-    let new_w = Math.max(this.fobj.el.offsetWidth + 2 * this.x_offset) //, this.block.min_content_width() - this.x_offset)
+    let new_w = Math.max(this.fobj.el.offsetWidth + 2 * this.x_offset + 15) //, this.block.min_content_width() - this.x_offset)
     let new_h = Math.max(this.fobj.el.offsetHeight + 2 * this.y_offset, this.max_height || 0) //+ 2 * this.y_offset)
 
     this.block.resize_content(new_w, new_h)
@@ -1133,6 +1134,11 @@ class MatrixBlockView extends WidgetBlockView {
   getValue() {
     // return this.editor.getValue();
     return 0
+  }
+
+  update_fobj_position(){
+    super.update_fobj_position()
+    this.fobj.x(this.x_offset + 15)
   }
 
   setValue(value) {

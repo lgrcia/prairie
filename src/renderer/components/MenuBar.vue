@@ -1,8 +1,6 @@
 <template>
   <div class="menu-tab">
-    <div class="pannel" v-if="isPannelActive($store.state.Tabs.menuCurrentButton)">
-      <component :is="componentName"></component>
-    </div>
+    <component class="pannel" v-if="isPannelActive($store.state.Tabs.menuCurrentButton)" :is="componentName"></component>
     <div class="buttons">
       <div
         class="menu-button"
@@ -82,25 +80,24 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../style/prairie-icons-solid.scss";
 @import "../style/prairie-colors.scss";
 
 $width: 220px;
 
 .menu-tab {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
+  display: flex;
+  flex-direction: column;
   background-color: $UI-background-color;
   width: $width;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  border-right: 1px solid $UI-border-color;
   opacity: 0.9;
+  height:100%;
 }
 
 .buttons {
@@ -110,21 +107,21 @@ $width: 220px;
 .empty {
   background-color: $UI-background-contrast;
   flex-grow: 1;
-  border-bottom-right-radius: 5px;
+  // border-bottom-right-radius: 5px;
 }
 
 .empty.top-rounded {
-  border-top-right-radius: 5px;
+  // border-top-right-radius: 5px;
 }
 
 .pannel {
   width: $width;
-  height: 400px;
-  bottom: 40px;
+  height: 100%;
+  // overflow: scroll;
 }
 
 .pannel .explorer {
-  height: 360px;
+  // height: 360px;
 }
 
 .menu-button {
@@ -138,6 +135,7 @@ $width: 220px;
   background-color: $UI-background-contrast;
   border-bottom: 3px solid $UI-background-contrast;
   padding-top: 3px;
+  // margin-bottom: 3px;
 }
 
 .menu-button.active {
@@ -145,8 +143,12 @@ $width: 220px;
   border-bottom: 3px solid $UI-color-active;
 }
 
+// .button {
+//   height: 12px;
+// }
+
 .menu-button:first-of-type {
-  border-bottom-left-radius: 5px;
+  // border-bottom-left-radius: 5px;
 }
 
 .menu-button.top-rounded:first-of-type {

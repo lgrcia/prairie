@@ -109,7 +109,10 @@ $menu-height: 40px;
 }
 
 #file-explorer-pane {
+  display:flex;
+  flex-direction: column;
   padding: 0px 10px 0px 10px;
+  height:100%;
   // width:200px;
 }
 
@@ -167,6 +170,10 @@ $menu-height: 40px;
   width: 200px;
   // height: $explorer-height;
   text-align: center;
+    display:flex;
+  flex-direction: column;
+  padding: 0px 10px 0px 10px;
+  height:100%;
 }
 
 .explorer-pane {
@@ -182,7 +189,8 @@ $menu-height: 40px;
 }
 
 .library-explorer {
-  overflow-y: scroll;
+  height:100%;
+  overflow: scroll;
   // padding: 0 5px 0 5px;
   // height: $explorer-height - $menu-height;
 }

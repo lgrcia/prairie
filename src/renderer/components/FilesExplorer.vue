@@ -50,7 +50,10 @@ export default {
 }
 
 #file-explorer-pane {
-    // width:250px;
+     display:flex;
+  flex-direction: column;
+  // padding: 0px 10px 0px 10px;
+  height:100%;
 }
 
 

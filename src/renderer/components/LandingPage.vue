@@ -1,15 +1,25 @@
 <template>
   <div id="app">
-    <tab-bar :tabs="$store.state.Tabs.tabs" :currentTab="$store.state.Tabs.currentTab"></tab-bar>
-    <div class="content" id="prairie"></div>
+    <title-bar></title-bar>
+    <div class="workspace">
+      <menu-bar></menu-bar>
+      <div class="tabs-bar-content">
+        <tab-bar
+          :tabs="$store.state.Tabs.tabs"
+          :currentTab="$store.state.Tabs.currentTab"
+          v-if="$store.state.Tabs.tabs.length"
+        ></tab-bar>
+        <div class="content" id="prairie"></div>
+      </div>
+    </div>
     <!-- <block-options-pannel v-if="$store.state.PrairieUI.selectedBlock" :blockModel="$store.state.PrairieUI.selectedBlock"></block-options-pannel> -->
-    <menu-bar></menu-bar>
-    <prairie-tool-bar></prairie-tool-bar>
+    <!-- <prairie-tool-bar></prairie-tool-bar> -->
   </div>
 </template>
 
 <script>
 import TabBar from "./TabBar.vue";
+import TitleBar from "./TitleBar.vue";
 import MenuBar from "./MenuBar.vue";
 import PrairieToolBar from "./PrairieToolBar.vue";
 import BlockOptionsPannel from "./BlockOptions/BlockOptionsPannel.vue";
@@ -29,7 +39,8 @@ export default {
     TabBar,
     MenuBar,
     BlockOptionsPannel,
-    PrairieToolBar
+    PrairieToolBar,
+    TitleBar
   },
   mounted: function() {
     // let model = {
@@ -159,18 +170,21 @@ body  {
 }
 
 #app {
+  // position:relative;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   // text-align: center;
   color: #2c3e50;
-  // height: 100%;
-  margin: 0px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
-  height: 800px;
+  height: 100%;
   width: 100%;
+  // width: 100%;
   // background-color: rgb(221, 208, 190);
   overflow: hidden;
 }
@@ -185,5 +199,21 @@ body  {
   right: 15px;
   z-index: 1000;
   // left: -$UI-border-width;
+}
+
+.workspace {
+  height: 100%;
+  width:100%;
+  // align-items: stretch;
+  display: flex;
+  flex-direction: row;
+}
+
+.tabs-bar-content {
+  height: 100%;
+    width: 100%;
+  // align-items: stretch;
+  display: flex;
+  flex-direction: column;
 }
 </style>

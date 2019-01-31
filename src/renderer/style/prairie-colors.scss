@@ -6,6 +6,7 @@ $UI-background-contrast: white;
 
 $UI-color-active: #5b91ff;
 // $UI-color-active: #F7CD4E;
+$UI-color-active: #727272;
 
 
 
@@ -17,3 +18,24 @@ $UI-button-hover-color: lighten($UI-button-color, 10%);
 $UI-button-clicked-color: darken($UI-button-color, 20%);
 
 $UI-tool-button-color: black;
+
+
+// /////@at-root
+
+// $UI-font-color: rgb(233, 233, 233);
+// $UI-background-color: #353535;
+// $UI-background-contrast: rgb(185, 185, 185);
+
+
+
+// $UI-color-active: #5b91ff;
+
+// $UI-border-color: #6e6e6e;
+// $UI-button-color: #bdbdbd;
+// $file-tree-font-color: #777777;
+
+// $UI-button-hover-color: darken($UI-button-color, 10%);
+// $UI-button-clicked-color: darken($UI-button-color, 20%);
+
+// $UI-tool-button-color: black;
+
