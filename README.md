@@ -2,7 +2,7 @@
 
 *note: development of Prairie is currently paused/stop*
 
-Prairie is a **visual programming** environment aimed at scientists and engineers. It's an **experiment** that tries to provide a natural and intuitive interface for **visualing** and **interacting** with complex data processing pipelines developped in **Python**.
+Prairie is a **visual programming** environment aimed at scientists and engineers. It's an **experiment** that tries to provide a natural and intuitive interface for **visualizing** and **interacting** with complex data processing pipelines developed in **Python**.
 
 <p align="center">
   <img src ="doc/scan_oct_example.gif"/>
@@ -12,11 +12,11 @@ Prairie is a **visual programming** environment aimed at scientists and engineer
 
 ## Overview
 
-**Prairie** is neither meant to replace traditional IDEs nor develop pipelines from scratch. Instead, it is designed as a **functional tool** that goes on top of your **libraries, class, functions** and complement your pipelines with rich and extandable **interactive widgets**.
+**Prairie** is neither meant to replace traditional IDEs nor develop pipelines from scratch. Instead, it is designed as a **functional tool** that goes on top of your **libraries, class, functions** and complement your pipelines with rich and extendable **interactive widgets**.
 
 Main features include:
 
-- Draging and dropping your existing class/functions **directly from your python files**
+- Dragging and dropping your existing class/functions **directly from your python files**
 
 <p align="center">
   <img src ="doc/functions.gif" />
@@ -56,7 +56,7 @@ Main features include:
 
 ### Libraries
 
-*note: Library extension features is not included in the current git version*
+*note: Libraries extension features are not included in the current git version*
 
 **Prairie** comes with out-of-the-box **block libraries** that can be extended with **custom and community-made libraries** and blocks. Libraries can be installed **like python packages**:
 
