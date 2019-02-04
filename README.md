@@ -70,7 +70,7 @@ and then become available on the interface, **loaded with your python interprete
 
 ### Default set
 
-See the [features list](Features list.md) and the [prairie blocks icons](prairie-icons.md) files to learn more about default blocks included when installing Prairie
+See the [features list](features_list.md) and the [prairie blocks icons](prairie-icons.md) files to learn more about default blocks included when installing Prairie
 
 
 
