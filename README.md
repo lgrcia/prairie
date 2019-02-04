@@ -45,7 +45,7 @@ Main features include:
     <div align='center'>
     	<img src="doc/image_airy.png">
         <p><i>Image block</i></p>
-   	</idv>
+   	</div>
 <div>
 
 - **and much more** (Prairie comes with an API to create custom blocks) ...
