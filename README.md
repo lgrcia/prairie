@@ -15,8 +15,10 @@ Prairie is a **visual programming** environment aimed at scientists and engineer
 ##### Use widgets to interact with your data
 
 <p align="center">
-  <img src ="https://github.com/LionelGarcia/Prairie/blob/svg_to_html/ressources/widgets.gif" />
+  <img src ="https://github.com/LionelGarcia/Prairie/blob/svg_to_html/ressources/widgets.png" />
 </p>
 
 ##### and much more ... (under development)
+
+
 
