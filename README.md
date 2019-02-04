@@ -2,7 +2,7 @@
 
 Prairie is a **visual programming** environment aimed at scientists and engineers. It provides a natural and intuitive interface to visualize and interact with complex data processing pipelines developped in **Python**.
 
-![prairie_demo_screen](https://github.com/LionelGarcia/Prairie/blob/master/ressources/scan_oct_example.gif)
+![prairie_demo_screen](https://github.com/LionelGarcia/Prairie/blob/svg_to_html/ressources/scan_oct_example.gif)
 
 ##### Drag and drop your functions from your python files
 
