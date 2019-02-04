@@ -98,6 +98,16 @@ $width: 220px;
   border-right: 1px solid $UI-border-color;
   opacity: 0.9;
   height:100%;
+
+  // gif production css
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  height:400px;
+  border-radius: 6px;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  //
+
 }
 
 .buttons {
@@ -176,4 +186,9 @@ $width: 220px;
 .nodes:before {
   @include menu-icon($node);
 }
+
+.menu-button {  
+  border:none;
+  margin-bottom: 3px;
+  }
 </style>
