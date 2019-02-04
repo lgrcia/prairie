@@ -45,7 +45,10 @@ const template = [
       {
         label: 'New Diagram',
         accelerator: 'Cmd+Shift+D', 
-        click() {
+
+        click: () => {
+          var prairie_ctr = new PrairieController("prairie", "unnamed.pr", v.$store.state.Tabs.prairie_n);
+
           v.$store.dispatch("addTab", {
             model: {
               name: "unnamed.pr",
@@ -53,14 +56,10 @@ const template = [
               saved: false,
               extension: "pr",
               path: "unnamed.pr"
-            }
+            },
+            content: prairie_ctr.eventTarget
           });
     
-          var prairie_ctr = new PrairieController("prairie", "unnamed.pr", store.state.Tabs.prairie_n);
-          v.$store.dispatch(
-            "setPrairieEventHandler",
-            prairie_ctr.eventTarget,
-          );
           
           // let f = new WidgetHtmlBlockView({
           //   id:'test-html-block', 
