@@ -80,7 +80,8 @@ See the [features list](doc/features_list.md) and the [prairie blocks icons](doc
 </p>
 
 
+
+
 ## General considerations
 
-**Prairie** provides notebook-like functionalities (see [Jupyter lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html)) in a **functional block-diagram interface**. As it is, Prairie **does not bring unique enough features** compared to Jupyter notebooks - *developer opinion* - which is the main reason why its **developpment has been stopped**. Nonetheless, it is a good starting point for anyone that would like to develop such an interface for a specific use (e.g. similar to [LabView](http://www.ni.com/nl-nl/shop/labview.html), [Simulink](https://www.mathworks.com/products/simulink.html) or any block-diagram GUI). **Contact**, through github issues or mail, is **open** for any kind of **initiative or support**.
-
+**Prairie** provides notebook-like functionalities (see [Jupyter lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html)) in a **functional block-diagram interface**. As it is, Prairie **does not bring unique enough features** compared to Jupyter notebooks - *developer opinion* - which is the main reason why its **development has been stopped**. Nonetheless, it is a good starting point for anyone that would like to develop such an interface for a specific use (e.g. similar to [LabView](http://www.ni.com/nl-nl/shop/labview.html), [Simulink](https://www.mathworks.com/products/simulink.html) or any block-diagram GUI). **Contact**, through github issues or mail, is **open** for any kind of **initiative or support**.
