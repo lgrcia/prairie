@@ -18,19 +18,6 @@
           <div class="empty top-rounded"></div>
         </div>
       </div>
-      <div class="prairie-tool-bar">
-        <div class="buttons">
-          <div
-            class="menu-button top-rounded"
-            v-for="button, value in buttons"
-            :key="value.id"
-            v-on:click="click(value)"
-          >
-            <i class="explorer-button fas button" :class="[button]"></i>
-          </div>
-          <div class="empty top-rounded"></div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -104,6 +91,7 @@ $width: 220px;
   // width: $width;
   z-index: 1000;
   display: flex;
+  justify-content: flex-end;
   flex-direction: column;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -137,6 +125,7 @@ $width: 220px;
 }
 
 .prairie-tool-bar .menu-button.active {
+  margin-bottom: 0px;
   //   background-color: $UI-background-color;
   //   border-bottom: 3px solid $UI-color-active;
 }
@@ -180,10 +169,11 @@ $width: 220px;
 }
 
 .toolbar {
-  margin-top: 20px;
+  margin-top: 10px;
   display:flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
+  flex-shrink: 0;
 }
 
 .play::before {
@@ -196,5 +186,9 @@ $width: 220px;
 
 .zoom:before {
   @include menu-icon($zoom);
+}
+
+.menu-button {
+    margin-bottom: 0px;
 }
 </style>

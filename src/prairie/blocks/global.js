@@ -1,6 +1,6 @@
 const view = require('./blockViews.js')
-const testView = require('./test/testBlocks.js')
 const _ = require('underscore')
+
 //DEV
 const uuid = require('uuid/v4')
 function createNode(type, name, value = NaN) {
@@ -14,7 +14,7 @@ function createNode(type, name, value = NaN) {
         ready: false
     }
 }
-////
+//
 
 var blocks = {
     function: {
@@ -166,21 +166,6 @@ var blocks = {
             return new view.MatrixBlockView(attr)
         }
     },
-
-    scan: {
-        initialize_model: function (model, attr) {
-            model.type = 'scan'
-        },
-        updateBlockModelFromBlockView: function (model, block_view) {
-            model.value = block_view.getValue();
-        },
-        blockWSMessageReceived: function (block_view, message) {
-            block_view.setValue()
-        },
-        blockView: function (attr) {
-            return new testView.ScanBlock3D(attr)
-        }
-    }
 
     // static_code: {
     //     blockView: function () {
