@@ -1,6 +1,6 @@
 # Prairie
 
-*note: development of Prairie is currently paused/stop*
+*note: development of Prairie is currently paused/stopped*
 
 Prairie is a **visual programming** environment aimed at scientists and engineers. It's an **experiment** that tries to provide a natural and intuitive interface for **visualizing** and **interacting** with complex data processing pipelines developed in **Python**.
 
