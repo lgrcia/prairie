@@ -37,3 +37,6 @@ def matrix(a):
     rv +=  [r'\end{bmatrix}']
     math = '\n'.join(rv)
     return math
+
+def scan(e):
+    return e

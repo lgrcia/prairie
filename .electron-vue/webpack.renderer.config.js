@@ -85,7 +85,7 @@ let rendererConfig = {
         }
       },
       {
-        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac|nrrd)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -101,7 +101,12 @@ let rendererConfig = {
             name: 'fonts/[name]--[folder].[ext]'
           }
         }
-      }
+      },
+      // {
+      //   test: /\.nrrd$/,
+      //   loader: 'url-loader',
+      //   include: paths.obj
+      // },
     ]
   },
   node: {
@@ -110,7 +115,7 @@ let rendererConfig = {
   },
   plugins: [
     new VueLoaderPlugin(),
-    new MiniCssExtractPlugin({filename: 'styles.css'}),
+    new MiniCssExtractPlugin({ filename: 'styles.css' }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, '../src/index.ejs'),
@@ -134,6 +139,7 @@ let rendererConfig = {
   resolve: {
     alias: {
       '@': path.join(__dirname, '../src/renderer'),
+      'src$': path.join(__dirname, '../src'),
       'vue$': 'vue/dist/vue.esm.js'
     },
     extensions: ['.js', '.vue', '.json', '.css', '.node']
