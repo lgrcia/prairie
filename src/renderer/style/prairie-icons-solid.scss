@@ -2,7 +2,9 @@
 
 
 $icon-font-family: "fontawesome" !important;
-$font-size: 17px;
+$font-size: 16px;
+
+$icon-color: lighten($UI-button-color, 20%);
 
 @font-face {
     font-family: "fontawesome";

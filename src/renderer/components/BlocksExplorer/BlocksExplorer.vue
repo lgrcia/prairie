@@ -223,6 +223,7 @@ $menu-height: 40px;
   // border: $UI-border $UI-border-color;
   // background-color: $UI-background-color;
   margin: -1px -1px 0px -1px;
+  // padding-top:25px;
 }
 
 .header {

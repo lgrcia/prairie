@@ -73,7 +73,7 @@ export default {
 
 .explorer {
   overflow-y: scroll;
-  overflow-x: scroll;
+  overflow-x: hidden;
 }
 
 .project-header {
@@ -89,6 +89,8 @@ export default {
   // border: $UI-border $UI-border-color;
   // background-color: $UI-background-color;
   // margin: -1px -1px 0px -1px;
+  flex-shrink: 0;
+  // padding-top:25px;
 }
 
 .project-header .title {

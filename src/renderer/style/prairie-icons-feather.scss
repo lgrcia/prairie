@@ -1,0 +1,41 @@
+@import './prairie-colors.scss';
+
+@font-face {
+    font-family: "feather";
+    src: url("../assets/Feather.ttf");
+  }
+
+$icon-color: $UI-button-color;
+
+$icon-font-family: "feather";
+$font-size: 18px;
+
+$right-arrow: "\e930";
+$down-arrow: "\e92e";
+$directory: "\e968";
+$open-directory: "\e968";
+$python-file: "\f1c9";
+$file: "\e961";
+$function: "\e9a2";
+$prairie-file: "\e960";
+$node: "\f111";
+$play: "\e9af";
+$gui-editor: "\e980";
+
+@mixin menu-icon($name) {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+      
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font: $icon-font-family;
+    content: $name;
+    font-size: $font-size;
+}
+

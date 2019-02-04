@@ -23,9 +23,7 @@ export default {
     selectTab: function(tab) {
       this.$store.dispatch(
         "setPrairieEventHandler",
-        this.$store.state.Tabs.tabsContent[
-          tab.name
-        ]
+        this.$store.state.Tabs.tabsContent[tab.name]
       );
       this.$store.dispatch("setCurrentTab", tab);
     },
@@ -70,14 +68,14 @@ $UI-border: $UI-border-width solid;
   overflow-y: hidden;
   // min-width: 100%;
   min-height: 30px;
-    width: 100%;
+  width: 100%;
 }
 
 .tab-item {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: $UI-background-color;
+  background-color: darken($UI-background-color, 3%);
   position: relative;
   text-align: left;
   line-height: 2em;
@@ -129,6 +127,7 @@ $UI-border: $UI-border-width solid;
 .close-button:before {
   content: "\e9af";
   font-size: 13px;
+  cursor: pointer;
 }
 
 .tab-item.active .title {

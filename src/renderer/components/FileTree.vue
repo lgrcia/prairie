@@ -161,15 +161,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@font-face {
-  font-family: "octicons730";
-  src: url("../assets/octicons730.ttf");
-}
-@font-face {
-  font-family: "fontawesome";
-  src: url("../assets/fontawesome-free-5.6.3-web/webfonts/fa-solid-900.ttf");
-}
-
 @import "../style/prairie-colors.scss";
 @import "../style/prairie-icons-solid.scss";
 
@@ -195,10 +186,13 @@ ul {
 
 div:before {
   font-family: $icon-font-family;
-  // font-family: "octicons730", sans-serif;
-  color: lighten($file-tree-font-color, 20%);
+  color: $icon-color;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+.tree-item {
+  white-space:nowrap;
 }
 
 .open-tab .tree-item-title:before {

@@ -11,7 +11,7 @@
       >
         <i class="explorer-button button" :class="[{grayed: !isClickable(value)}, value.icon]"></i>
       </div>
-      <div class="empty" :class="{'top-rounded': !$store.state.Tabs.menuCurrentButton}"></div>
+      <div class="empty"></div>
     </div>
   </div>
 </template>
@@ -103,25 +103,16 @@ $width: 220px;
 .buttons {
   display: flex;
   flex-direction: row;
+  margin-bottom: 3px;
 }
 .empty {
   background-color: $UI-background-contrast;
   flex-grow: 1;
-  // border-bottom-right-radius: 5px;
-}
-
-.empty.top-rounded {
-  // border-top-right-radius: 5px;
 }
 
 .pannel {
   width: $width;
   height: 100%;
-  // overflow: scroll;
-}
-
-.pannel .explorer {
-  // height: 360px;
 }
 
 .menu-button {
@@ -135,20 +126,11 @@ $width: 220px;
   background-color: $UI-background-contrast;
   border-bottom: 3px solid $UI-background-contrast;
   padding-top: 3px;
-  // margin-bottom: 3px;
 }
 
 .menu-button.active {
   background-color: $UI-background-color;
   border-bottom: 3px solid $UI-color-active;
-}
-
-// .button {
-//   height: 12px;
-// }
-
-.menu-button:first-of-type {
-  // border-bottom-left-radius: 5px;
 }
 
 .menu-button.top-rounded:first-of-type {

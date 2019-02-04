@@ -1,5 +1,5 @@
 <template>
-  <div class="block-item" v-on:dragstart="dragstart">
+  <div class="block-item" v-on:dragstart="dragstart" v-on:dblclick="dblclick">
     <img class="block-icon" :src="svgSource" ref="block-icon">
     <div class="title-cont">
       <div class="title" :class="{small: this.cName>1000}">{{cName}}</div>
@@ -94,6 +94,21 @@ export default {
       );
       var img = this.$refs["block-icon"];
       event.dataTransfer.setDragImage(img, 0, 0);
+    },
+    dblclick: function(event) {
+      console.log('clicked')
+      this.$store.dispatch("eventToPrairie", {
+          name: "addBlockLeftTop",
+          data: {
+            type: this.title,
+            model: {
+              file_path: this.path,
+              function_name: this.name,
+              icon_svg_img: this.spath
+            }
+          }
+        }
+      );
     },
     getSource: function(path) {
       return require(path);

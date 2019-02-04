@@ -1,17 +1,35 @@
 <template>
   <div class="titlebar">
     <div class="titlebar-drag-zone"></div>
-    <div class="prairie-tool-bar">
-      <div class="buttons">
-        <div
-          class="menu-button top-rounded"
-          v-for="button, value in buttons"
-          :key="value.id"
-          v-on:click="click(value)"
-        >
-          <i class="explorer-button fas button" :class="[button]"></i>
+    <div
+      class="titbar-header"
+    >{{'Prairie' + ($store.state.Tabs.currentTab.name ? ' - ' + $store.state.Tabs.currentTab.name : '')}}</div>
+    <div class="toolbar">
+      <div class="prairie-tool-bar">
+        <div class="buttons">
+          <div
+            class="menu-button top-rounded"
+            v-for="button, value in buttons"
+            :key="value.id"
+            v-on:click="click(value)"
+          >
+            <i class="explorer-button fas button" :class="[button]"></i>
+          </div>
+          <div class="empty top-rounded"></div>
         </div>
-        <div class="empty top-rounded"></div>
+      </div>
+      <div class="prairie-tool-bar">
+        <div class="buttons">
+          <div
+            class="menu-button top-rounded"
+            v-for="button, value in buttons"
+            :key="value.id"
+            v-on:click="click(value)"
+          >
+            <i class="explorer-button fas button" :class="[button]"></i>
+          </div>
+          <div class="empty top-rounded"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -62,11 +80,11 @@ export default {
   background-color: $UI-background-color;
   border-bottom: 1px solid $UI-border-color;
   width: 100%;
-  height: 50px;
+  // height: 30px;
 }
 
 .titlebar-drag-zone {
-   position: absolute;
+  position: absolute;
   width: 100%;
   height: 50px;
   user-select: none;
@@ -79,17 +97,17 @@ export default {
 $width: 220px;
 
 .prairie-tool-bar {
-  position: absolute;
-  right: 15px;
-//   top: 50px;
-//   background-color: $UI-background-color;
+  // position: absolute;
+  // right: 15px;
+  //   top: 50px;
+  //   background-color: $UI-background-color;
   // width: $width;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-//   box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1);
+  //   box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1);
   opacity: 0.9;
 }
 
@@ -99,14 +117,10 @@ $width: 220px;
 }
 
 .prairie-tool-bar .empty {
-//   background-color: $UI-background-contrast;
+  //   background-color: $UI-background-contrast;
   flex-grow: 1;
   border-bottom-right-radius: 5px;
   border-top-right-radius: 5px;
-}
-
-.buttons {
-margin-top: 3px;
 }
 
 .prairie-tool-bar .menu-button {
@@ -117,14 +131,14 @@ margin-top: 3px;
   height: 40px;
   width: 40px;
   text-align: center;
-//   background-color: $UI-background-contrast;
-//   border-bottom: 3px solid $UI-background-contrast;
+  //   background-color: $UI-background-contrast;
+  //   border-bottom: 3px solid $UI-background-contrast;
   padding-top: 3px;
 }
 
 .prairie-tool-bar .menu-button.active {
-//   background-color: $UI-background-color;
-//   border-bottom: 3px solid $UI-color-active;
+  //   background-color: $UI-background-color;
+  //   border-bottom: 3px solid $UI-color-active;
 }
 
 .prairie-tool-bar .menu-button:first-of-type {
@@ -153,6 +167,23 @@ margin-top: 3px;
 .explorer-button::before {
   font-family: $icon-font-family;
   font-style: normal;
+}
+
+.titbar-header {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  margin: 5px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  font-family: system-ui;
+  font-size: 12px;
+}
+
+.toolbar {
+  margin-top: 20px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .play::before {
