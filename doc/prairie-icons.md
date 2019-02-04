@@ -53,33 +53,33 @@
   - meshgrid
 - **Building matrices**:
 
-  - diag
+  - diag  <img src="https://img.shields.io/badge/icon-done-green.svg"/>
   - Diagflat
 
 ## Array and matrices manipulation
 
 - reshape
-- flatten
-- transpose
-- concatenate
-- append
+- flatten  <img src="https://img.shields.io/badge/icon-done-green.svg"/>
+- transpose  <img src="https://img.shields.io/badge/icon-done-green.svg"/>
+- concatenate  <img src="https://img.shields.io/badge/icon-done-green.svg"/>
+- append <img src="https://img.shields.io/badge/icon-done-green.svg"/>
 - unique
 - flip
-- rot90
+- rot90 <img src="https://img.shields.io/badge/icon-done-green.svg"/>
 
 ## Binary operations
 
-- AND
-- OR
+- AND <img src="https://img.shields.io/badge/icon-done-green.svg"/>
+- OR <img src="https://img.shields.io/badge/icon-done-green.svg"/>
 - XOR
-- NOT
+- NOT 
 
 ## String operations
 
-- capitalize
-- lower
+- capitalize <img src="https://img.shields.io/badge/icon-done-green.svg"/>
+- lower <img src="https://img.shields.io/badge/icon-done-green.svg"/>
 - split
-- replace
+- replace <img src="https://img.shields.io/badge/icon-done-green.svg"/>
 
 ## Mathematical functions
 
@@ -103,8 +103,8 @@
   - qr
   - svd
 - **Norm and number**
-  - norm
-  - det
+  - norm <img src="https://img.shields.io/badge/icon-done-green.svg"/>
+  - det<img src="https://img.shields.io/badge/icon-done-green.svg"/>
   - rank
   - trace
 - **Solving equations and inversion**

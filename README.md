@@ -75,10 +75,9 @@ See the [features list](doc/features_list.md) and the [prairie blocks icons](doc
 
 
 <p align="center">
-  <img src ="doc/blocks-icons.png"/>
+  <img src ="doc/block-icons.png"/>
     <p align="center"><i>some Prairie block icons</i></p>
 </p>
-
 
 
 
