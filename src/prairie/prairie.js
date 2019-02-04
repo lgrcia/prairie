@@ -137,7 +137,7 @@ class Prairie {
 
     this.blueprint = this.svg.group()
 
-    this.drawBlueprint();
+    // this.drawBlueprint();
 
     this._connection_creation_mode = false;
     this._snapping = false;
@@ -359,7 +359,7 @@ class Prairie {
   block_mouse_down(block) {
     if (!this._connection_creation_mode) {
       this._last_item_clicked = block;
-      this._last_item_clicked.blockshape_group.draggable()
+      this._last_item_clicked.blockshape_group.draggable(true)
     }
   }
 
@@ -466,7 +466,7 @@ class Prairie {
   }
 
   addBlockInputOrOutput(node) {
-    this.svg.fire('addBlockInputOrOutput', node)
+    this.eventTarget.dispatchEvent(new CustomEvent('addBlockInputOrOutput', {detail:node}))
   }
 
   openContextMenu(blockView) {

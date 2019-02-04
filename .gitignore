@@ -13,4 +13,4 @@ __pyache__/*
 *.idea
 *.ipynb_checkpoints
 Pipfile.lock
-src/prairie/test/*
+src/prairie/blocks/test/

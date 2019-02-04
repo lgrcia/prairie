@@ -30,7 +30,9 @@
   font-size: 14px;
 }
 
-.block-group.error .header {
+.block.error .header,
+.block.error .cover-in,
+.block.error .cover-out {
   border-color: #E07F7F;
   background-color: #FFCED0;
 }
@@ -45,11 +47,7 @@
   cursor: default;
 }
 
-.block-group.error .header-font {
-  background-color: #E07F7F;
-}
-
-.block-group.error .header-font {
+.block.error .header-font {
   background-color: #E07F7F;
 }
 
@@ -64,18 +62,14 @@
   border: 1px solid #DDDDDD;
 }
  
-.block-group.error .node-group .node.unconnected {
-  stroke: #E07F7F;
-}
-
-.block-group.error .node-group .node.connected {
-  stroke: #E07F7F;
+.block.error .node-group .node.connected {
+  border-color: #E07F7F;
   background-color: #E07F7F;
 }
 
 
 #prairie .block {
-  background-color: #FFFFFF;
+  background-color: rgba(255,255, 255, 0.9);
   opacity: 1;
   border: 1.2px solid #DDDDDD;
   // border: 1.2px solid #C5C5C5;
@@ -83,15 +77,11 @@
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.05);
 }
 
-.block-stroke {
-  background-color-opacity: 0;
-  stroke: #C5C5C5;
-  stroke-width: 0.7;
+#prairie .block.error {
+  border-color: #E07F7F;
+  box-shadow: 0 2px 3px 0 rgba(#E07F7F, 0.5);
 }
 
-.block-group.error .block-stroke {
-  stroke: rgb(209, 76, 76);
-}
 
 .input-block{
   background-color: white;
@@ -113,8 +103,6 @@
   background-color: rgb(189, 189, 189);
   opacity: 0
 }
-
-
 
 .connection.unselected {
   opacity: 0
@@ -296,4 +284,13 @@
 
 .katex {
   font-size: 15px;
+  user-select: none;
+  pointer-events: none;
+}
+
+#prairie .block.scan-block {
+  background-color: black;
+  border-color: black;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }

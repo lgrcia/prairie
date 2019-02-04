@@ -41,6 +41,7 @@ class PrairieController {
     this.server_network = name + uuid()
     this.port = 12300 + i
 
+    // this.startServer([8886, 'test'])
     this.startServer()
 
     this.view = new prairie.Prairie(view_id, name);

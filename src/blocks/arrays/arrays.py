@@ -4,7 +4,8 @@ def length(v):
     return len(v)
 
 def dot_product(u, v):
-    return np.dot(u, v)
+    udotv = np.dot(u, v)
+    return udotv
 
 def cross_product(u, v):
     return np.cross(u, v)

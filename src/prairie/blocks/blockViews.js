@@ -1104,6 +1104,8 @@ class MatrixBlockView extends WidgetBlockView {
       attr: { ...attr }
     })
 
+    this.fobj.el.style['pointer-events'] = 'none'
+
     this.create_nodes(nodes, 'in')
 
     this.initial_w = init_w

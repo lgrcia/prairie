@@ -204,15 +204,7 @@ class BlockShape {
         this.block_group = new BlockHtmlShape(svg, style)
         this.block_group.addClass('block')
 
-        // if (header) {
-        //     this.name = this.add_name()
-        // } else if (this.nameAsIcon) {
-        //     if (icon_svg) {
-        //         this.icon = this.add_icon()
-        //     }
-        // }
-
-        // this.icon_svg = require('/Users/lgr/Code/prairie-vue/src/blocks/arrays_creation/icons/ones_like.svg')
+        // this.icon_svg = "src/blocks/operations/icons/rand.svg"
 
         if (this.nameAsIcon) {
             this.name = this.add_name()
@@ -221,7 +213,7 @@ class BlockShape {
             //     - this.name.height() / 2 + this.block_group.height() / 2
             // )
             // this.name.center(this.block_group)
-            // // this.icon = this.add_icon()
+            // this.icon = this.add_icon()
         }
 
         if (node_cover_in || node_cover_out) {
@@ -230,7 +222,6 @@ class BlockShape {
             this.add_node_cover()
         }
 
-        // this.block_group.draggable()
         this.resize()
 
         this.block_group.move(x, y)
