@@ -48,7 +48,7 @@ Main features include:
    	</div>
 <div>
 
-- **and much more** (Prairie comes with an API to create custom blocks) ...
+- **and much more** (Prairie would provide an API to create custom blocks - *not included in the current version*) ...
 
 
 
@@ -58,7 +58,7 @@ Main features include:
 
 *note: Libraries extension features are not included in the current git version*
 
-**Prairie** comes with out-of-the-box **block libraries** that can be extended with **custom and community-made libraries** and blocks. Libraries can be installed **like python packages**:
+**Prairie** would come with out-of-the-box **block libraries** that can be extended with **custom and community-made libraries** and blocks. Libraries could be installed **like python packages**:
 
 ```shell
 pip install prairie-<library-name>
@@ -78,3 +78,7 @@ See the [features list](doc/features_list.md) and the [prairie blocks icons](doc
   <img src ="doc/blocks-icons.png"/>
     <p align="center"><i>some Prairie block icons</i></p>
 </p>
+## General considerations
+
+**Prairie** provides notebook-like functionalities (see [Jupyter lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html)) in a **functional block-diagram interface**. As it is, Prairie **does not bring unique enough features** compared to Jupyter notebooks - *developer opinion* - which is the main reason why its **developpment has been stopped**. Nonetheless, it is a good starting point for anyone that would like to develop such an interface for a specific use (e.g. similar to [LabView](http://www.ni.com/nl-nl/shop/labview.html), [Simulink](https://www.mathworks.com/products/simulink.html) or any block-diagram GUI). **Contact**, through github issues or mail, is **open** for any kind of **initiative or support**.
+
