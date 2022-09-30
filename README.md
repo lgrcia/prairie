@@ -1,6 +1,9 @@
+### *Please note*
+
+Prairie was created in 2018 as an experiment and is no longer being developed. For a proper Python-friendly workflow manager, have a look at [orchest](https://www.orchest.io/) (visual), or general options like [Apache workflow](https://airflow.apache.org/) and [snakemake](https://snakemake.readthedocs.io/en/stable/)
+
 # Prairie
 
-*note: development of Prairie is currently paused/stopped*
 
 Prairie is a **visual programming** environment aimed at scientists and engineers. It's an **experiment** that tries to provide a natural and intuitive interface for **visualizing** and **interacting** with complex data processing pipelines developed in **Python**.
 
